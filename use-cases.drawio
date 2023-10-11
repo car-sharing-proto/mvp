@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-10-11T18:28:12.448Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="wM3YWeD7dFRR1xrfVh8T" version="22.0.4" type="github">
+<mxfile host="app.diagrams.net" modified="2023-10-11T18:29:12.989Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="ic0T8IGQKDib7WL33ZIZ" version="22.0.4" type="github">
   <diagram name="Страница — 1" id="g3UVZSWfN8OI7AbEZ13V">
     <mxGraphModel dx="1235" dy="1028" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="2339" pageHeight="3300" math="0" shadow="0">
       <root>
@@ -54,7 +54,7 @@
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-48" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-6" target="lNPVLpEEofSU8LIJ9ZFC-41">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="980" y="140" />
+              <mxPoint x="980" y="90" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -79,6 +79,9 @@
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-17" value="include" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;dashed=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-11" target="lNPVLpEEofSU8LIJ9ZFC-13">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-69" value="include" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-11" target="lNPVLpEEofSU8LIJ9ZFC-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-11" value="Начать сессию использования" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="630" y="250" width="120" height="80" as="geometry" />
         </mxCell>
@@ -91,11 +94,8 @@
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-20" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-13" target="lNPVLpEEofSU8LIJ9ZFC-6">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-57" value="include" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-13" target="lNPVLpEEofSU8LIJ9ZFC-41">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-13" value="Начать ТО" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="840" y="220" width="120" height="80" as="geometry" />
+          <mxGeometry x="840" y="260" width="120" height="80" as="geometry" />
         </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-21" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-14" target="lNPVLpEEofSU8LIJ9ZFC-6">
           <mxGeometry relative="1" as="geometry" />
@@ -129,9 +129,6 @@
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-34" value="Запустить автомобиль на линию" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="410" y="910" width="120" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-42" value="include" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-36" target="lNPVLpEEofSU8LIJ9ZFC-41">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-36" value="Начать осмотр" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="430" y="210" width="120" height="80" as="geometry" />
         </mxCell>
@@ -148,10 +145,10 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-41" value="Выйти из режима ожидания" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="510" y="70" width="120" height="80" as="geometry" />
+          <mxGeometry x="500" y="40" width="120" height="80" as="geometry" />
         </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-49" value="Открыть замок" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="690" y="-30" width="120" height="80" as="geometry" />
+          <mxGeometry x="690" y="140" width="120" height="80" as="geometry" />
         </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-50" value="Закрыть замок" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="600" y="420" width="120" height="80" as="geometry" />
@@ -172,7 +169,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-65" value="2" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="910" y="20" width="30" height="30" as="geometry" />
+          <mxGeometry x="885" y="170" width="30" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
