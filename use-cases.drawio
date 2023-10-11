@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-10-11T17:44:29.758Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="uAuzO1kJCRGRXgV_C5Ea" version="22.0.4" type="github">
+<mxfile host="app.diagrams.net" modified="2023-10-11T17:48:18.275Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="OCFmaHAn-zLpcxUo6ud_" version="22.0.4" type="github">
   <diagram name="Страница — 1" id="g3UVZSWfN8OI7AbEZ13V">
     <mxGraphModel dx="1050" dy="534" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2339" pageHeight="3300" math="0" shadow="0">
       <root>
@@ -10,11 +10,17 @@
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-10" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-2" target="lNPVLpEEofSU8LIJ9ZFC-9">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-29" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-2" target="lNPVLpEEofSU8LIJ9ZFC-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-2" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
           <mxGeometry x="180" y="160" width="30" height="60" as="geometry" />
         </mxCell>
+        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-26" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-5" target="lNPVLpEEofSU8LIJ9ZFC-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-5" value="Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
-          <mxGeometry x="130" y="340" width="30" height="60" as="geometry" />
+          <mxGeometry x="150" y="540" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-6" value="Mechanic" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
           <mxGeometry x="1090" y="150" width="30" height="60" as="geometry" />
@@ -54,6 +60,26 @@
         </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-14" value="Сдать автомобиль" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="820" y="280" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-22" value="Просмотр карты автомобилей" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="490" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-24" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=10;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-23" target="lNPVLpEEofSU8LIJ9ZFC-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-25" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-23" target="lNPVLpEEofSU8LIJ9ZFC-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-23" value="Просмотр карты авто в сервисном режиме" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="820" y="410" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-27" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=10;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-28" target="lNPVLpEEofSU8LIJ9ZFC-22">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="350" y="483" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-28" value="Просмотр карты доступных автомобилей" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="390" width="120" height="80" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
