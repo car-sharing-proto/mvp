@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-10-11T17:54:12.918Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="2gIxwvp7oCVd8TUTMhXY" version="22.0.4" type="github">
+<mxfile host="app.diagrams.net" modified="2023-10-11T18:03:12.881Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="f0mGMbXxNczNkpP6Dnlg" version="22.0.4" type="github">
   <diagram name="Страница — 1" id="g3UVZSWfN8OI7AbEZ13V">
     <mxGraphModel dx="1050" dy="534" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2339" pageHeight="3300" math="0" shadow="0">
       <root>
@@ -20,6 +20,9 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-32" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=none;startFill=0;endArrow=none;endFill=0;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-5" target="lNPVLpEEofSU8LIJ9ZFC-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-35" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="lNPVLpEEofSU8LIJ9ZFC-5" target="lNPVLpEEofSU8LIJ9ZFC-34">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-5" value="Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
@@ -85,7 +88,10 @@
           <mxGeometry x="350" y="390" width="120" height="80" as="geometry" />
         </mxCell>
         <mxCell id="lNPVLpEEofSU8LIJ9ZFC-31" value="Перевести автомобиль в сервисный режим" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="390" y="630" width="120" height="80" as="geometry" />
+          <mxGeometry x="400" y="600" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lNPVLpEEofSU8LIJ9ZFC-34" value="Запустить автомобиль на линию" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="710" width="120" height="80" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
