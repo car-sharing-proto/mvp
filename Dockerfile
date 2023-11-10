@@ -1,9 +1,13 @@
 # syntax=docker/dockerfile:1
+FROM postgres:latest
 
-FROM ubuntu:16.04
-FROM python:3.11.1
+COPY ./db/init.sql /docker-entrypoint-initdb.d/init.sql
 
+FROM python:latest
 WORKDIR /service
 COPY . ./
-EXPOSE 8080
+RUN python3 -m venv venv
+RUN . venv/bin/activate
+RUN pip3 install -r requirements.txt
+EXPOSE 4000
 CMD ["python3", "main.py"]

@@ -1,0 +1,1 @@
+psql -U "user" -d "carsharing" -p "5432" -h "localhost"
