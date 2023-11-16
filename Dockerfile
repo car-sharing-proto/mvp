@@ -1,8 +1,4 @@
 # syntax=docker/dockerfile:1
-FROM postgres:latest
-
-COPY ./db/init.sql /docker-entrypoint-initdb.d/init.sql
-
 FROM python:latest
 WORKDIR /service
 COPY . ./

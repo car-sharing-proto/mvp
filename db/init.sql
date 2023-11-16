@@ -7,6 +7,48 @@ drop table if exists TCarMark;
 drop table if exists TRentStatus;
 drop table if exists TTelematics;
 
+begin;
+DO $$
+begin
+    if not exists (
+        select 1 
+        from pg_type 
+        where typname = 'door_status'
+    ) 
+    then
+    create type door_status as enum (
+        'opened', 
+        'closed'
+    );
+    end if;
+
+    if not exists (
+        select 1 
+        from pg_type 
+        where typname = 'immobilizer_status'
+    ) 
+    then
+    create type immobilizer_status as enum (
+        'on', 
+        'off'
+    );
+    end if;
+
+    if not exists (
+        select 1 
+        from pg_type 
+        where typname = 'central_locking_status'
+    ) 
+    then
+    create type central_locking_status as enum (
+        'on', 
+        'off'
+    );
+    end if;
+end
+$$;
+commit;
+
 create table TComment (
     _id integer,
     _content text not null,
@@ -73,59 +115,19 @@ create table TTelematics (
     _timedate timestamp not null,
     _carId integer,
     -- door status --
-    _leftFrontDoorStatus text check (
-        _leftFrontDoorStatus in (
-            'closed', 
-            'opened'
-        )
-    ), 
-    _rightFrontDoorStatus text check (
-        _rightFrontDoorStatus in (
-            'closed', 
-            'opened'
-        )
-    ), 
-    _leftRearDoorStatus text check (
-        _leftRearDoorStatus in (
-            'closed',
-            'opened'
-        )
-    ), 
-    _rightRearDoorStatus text check (
-        _rightRearDoorStatus in (
-            'closed',
-            'opened'
-        )
-    ), 
-    _hood text check (
-        _hood in (
-            'closed', 
-            'opened'
-        )
-    ), 
-    _trunk text check (
-        _trunk in (
-            'closed', 
-            'opened'
-        )
-    ), 
+    _leftFrontDoorStatus door_status,
+    _rightFrontDoorStatus door_status,
+    _leftRearDoorStatus door_status,
+    _rightRearDoorStatus door_status,
+    _hood door_status,
+    _trunk door_status,
     -- geoposition --
     _geoposition text not null,
     -- immobilizer --
-    _immobilizerStatus text check (
-        _immobilizerStatus in (
-            'on', 
-            'off'
-        )
-    ), 
+    _immobilizerStatus immobilizer_status,
     -- central locking --
-    _centralLockingStatus text check (
-        _centralLockingStatus in (
-            'on', 
-            'off'
-        )
-    ), 
-
+    _centralLockingStatus central_locking_status,
+    
     primary key (_id),
     foreign key (_carId) references TCar (_id)
 );
