@@ -2,7 +2,6 @@ from flask import request
 from flask_login import login_required
 from flask_login import login_user
 from flask_login import logout_user
-from flask_login import LoginManager
 
 from app.usecases.user_register import user_register
 from app.usecases.user_register import get_user
@@ -12,18 +11,6 @@ from app.models.user import User
 import logging
 
 def setup_routes(app):
-
-    login_manager = LoginManager()
-    login_manager.init_app(app)
-    login_manager.login_view = 'login'
-
-    app.config['SECRET_KEY'] = 'thisisasecretkey'
-
-    @login_manager.user_loader
-    def load_user(user_id):
-        app.logger.info(f"USER_ID IS {int(user_id)}")
-        return get_user_by_id(int(user_id))
-    
     @app.route('/')
     def index():
         return 'This is the best carsharing backend!'
