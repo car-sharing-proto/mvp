@@ -12,7 +12,7 @@ def create_app():
     user_repository = UserRepository()
     user_service = UserService(user_repository)
 
-    setup_routes(app)
-    setup_loging(app, login_manager)
+    setup_routes(app, user_service)
+    setup_loging(app, login_manager, user_service)
 
     return app

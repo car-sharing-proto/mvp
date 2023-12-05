@@ -1,8 +1,4 @@
-from app.usecases.user_register import user_register
-from app.usecases.user_register import get_user
-from app.usecases.user_register import get_user_by_id
-
-def setup_loging(app, login_manager):
+def setup_loging(app, login_manager, user_service):
     login_manager.init_app(app)
     login_manager.login_view = 'login'
 
@@ -10,5 +6,6 @@ def setup_loging(app, login_manager):
 
     @login_manager.user_loader
     def load_user(user_id):
-        app.logger.info(f"USER_ID IS {int(user_id)}")
-        return get_user_by_id(int(user_id))
+        user = user_service.get_user_by_id(user_id)
+        app.logger.info(f"USER_ID IS {user.id}. NAME IS {user.name}")
+        return user

@@ -10,7 +10,7 @@ from app.models.user import User
 
 import logging
 
-def setup_routes(app):
+def setup_routes(app, user_service):
     @app.route('/')
     def index():
         return 'This is the best carsharing backend!'
@@ -35,20 +35,21 @@ def setup_routes(app):
     def register():
         name = request.args['user_name']        
         password = request.args['user_password']
+        id = request.args['id']
 
-        user = User(name, password, "user")
+        user = User(id, "user", name, password)
 
-        user_register(user)
+        user_service.register_user(user)
 
         return "successfully registred"
     
 
     @app.route('/auth/login/', methods = ['POST'])
     def login():
-        name = request.args['user_name']        
+        id = request.args['id']        
         password = request.args['user_password']
 
-        user = get_user(name)
+        user = user_service.get_user_by_id(id)
 
         if not user:
             return "user not found"
@@ -56,7 +57,9 @@ def setup_routes(app):
         if user.password != password:
             return "incorrect password"
         
-        login_user(user)
+        result = login_user(user)
+
+        app.logger.info(f"USER LOGIN IS {result}")
         
         return "successfully logined"
 

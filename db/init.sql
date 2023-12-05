@@ -1,6 +1,5 @@
 drop table if exists TUseSession;
 drop table if exists TUser;
-drop table if exists TRole;
 drop table if exists TCar;
 drop table if exists TComment;
 drop table if exists TCarMark;
@@ -57,18 +56,13 @@ create table TComment (
     primary key (_id)
 );
 
-create table TRole (
-    _name text not null,
-
-    primary key (_name)
-);
-
 create table TUser (
     _id integer,
     _role text not null,
+    _name text not null,
+    _pass text not null,
 
-    primary key (_id),
-    foreign key (_role) references TRole (_name)
+    primary key (_id)
 );
 
 create table TCarMark (
