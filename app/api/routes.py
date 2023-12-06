@@ -2,6 +2,7 @@ from flask import request
 from flask_login import login_required
 from flask_login import login_user
 from flask_login import logout_user
+import psycopg2
 
 from app.usecases.user_register import user_register
 from app.usecases.user_register import get_user
@@ -11,6 +12,24 @@ from app.models.user import User
 import logging
 
 def setup_routes(app, user_service):
+    @app.route('/test/')
+    def test():
+        try:
+            con = psycopg2.connect(
+                dbname="carsharing",
+                user="postgres",
+                password="1111",
+                host="host.docker.internal",
+                port=5432
+            )
+        except Exception as e:
+            message = f"Ошибка подключения: {e}"
+        else:
+            message = "Подключение успешно"
+        finally:
+            ...
+        return message
+
     @app.route('/')
     def index():
         return 'This is the best carsharing backend!'
@@ -46,7 +65,7 @@ def setup_routes(app, user_service):
 
     @app.route('/auth/login/', methods = ['POST'])
     def login():
-        id = request.args['id']        
+        id = int(request.args['id'] )       
         password = request.args['user_password']
 
         user = user_service.get_user_by_id(id)

@@ -2,6 +2,8 @@ version: '3.1'
 
 services:
   web:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     env_file: .env
     ports:
       - ${SERVER_PORT}:8000
@@ -19,10 +21,15 @@ services:
       POSTGRES_PASSWORD: ${DB_PASS}
 
   postgres:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: always
     image: postgres:latest
+    expose:
+      - ${DB_PORT}
     volumes:
       - db-data:/var/lib/postgresql
+      - ./db/pg_hba.conf:/var/lib/postgresql/pg_hba.conf
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_DB: ${DB_NAME}
