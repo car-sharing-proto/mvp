@@ -5,8 +5,6 @@ from flask_login import logout_user
 
 from app.models.user import User
 
-import logging
-
 def setup_routes(app, user_service):
     @app.route('/')
     def index():
@@ -37,7 +35,7 @@ def setup_routes(app, user_service):
         user = User(id, "user", name, password)
 
         user_service.register_user(user)
-
+        
         return "successfully registred"
     
 
