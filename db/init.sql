@@ -3,7 +3,6 @@ drop table if exists TUser;
 drop table if exists TCar;
 drop table if exists TComment;
 drop table if exists TCarMark;
-drop table if exists TRentStatus;
 drop table if exists TTelematics;
 
 begin;
@@ -44,6 +43,32 @@ begin
         'off'
     );
     end if;
+
+    if not exists (
+        select 1 
+        from pg_type 
+        where typname = 'rent_state'
+    ) 
+    then
+    create type rent_state as enum (
+        'reserved', 
+        'paused',
+        'active',
+        'free'
+    );
+    end if;
+
+    if not exists (
+        select 1 
+        from pg_type 
+        where typname = 'rent_mode'
+    ) 
+    then
+    create type rent_mode as enum (
+        'service', 
+        'rent'
+    );
+    end if;
 end
 $$;
 commit;
@@ -74,22 +99,16 @@ create table TCarMark (
     primary key (_id)
 );
 
-create table TRentStatus (
-    _status text not null,
-
-    primary key (_status)
-);
-
 create table TCar (
     _id integer,
     _number text not null,
     _mileage integer,
     _markId integer,
-    _status text,
+    _rentState rent_state,
+    _rentMode rent_mode,
 
     primary key (_id),
-    foreign key (_markId) references TCarMark (_id),
-    foreign key (_status) references TRentStatus (_status)
+    foreign key (_markId) references TCarMark (_id)
 );
 
 create table TUseSession (

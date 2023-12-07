@@ -1,9 +1,14 @@
+from flask_login import current_user
+
 from flask import request
+from flask import abort
+
 from flask_login import login_required
 from flask_login import login_user
 from flask_login import logout_user
 
 from app.models.user import User
+from app.models.role import Role
 
 def setup_routes(app, user_service):
     @app.route('/')
@@ -18,6 +23,9 @@ def setup_routes(app, user_service):
 
         if request.method == 'GET':
             return car_id
+        
+        if(current_user.role == Role.User):
+            abort(405)
 
         if request.method == 'POST':
             return f"post request for {car_id}!"
@@ -35,7 +43,7 @@ def setup_routes(app, user_service):
         user = User(id, "user", name, password)
 
         user_service.register_user(user)
-        
+
         return "successfully registred"
     
 
