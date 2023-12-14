@@ -44,3 +44,15 @@ class UserRepository():
                     user.role, 
                     user.name,
                     user.password))
+            
+    # update user        
+    def update_user(self, user : User) -> None:
+        with psycopg2.connect(**self.connection_params) as con:
+            cur = con.cursor()
+            cur.execute('''
+                UPDATE TUser SET _role = '{1}', _name = '{2}', _pass = '{3}'
+                WHERE _id = {0};'''.format(
+                    user.id,
+                    user.role, 
+                    user.name,
+                    user.password))

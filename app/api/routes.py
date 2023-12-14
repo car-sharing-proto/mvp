@@ -33,6 +33,29 @@ def setup_routes(app, user_service):
         if request.method == 'DELETE':
             return f"delete request for {car_id}!"
         
+    
+    @app.route('/user/legacy/', methods = ['GET', 'POST', 'DELETE'])
+    @login_required
+    def user():
+        user_id = int(request.args['user_id'])
+
+        user = user_service.get_user_by_id(user_id)
+
+        if request.method == 'GET':
+            if user:
+                return f"{user.id}, {user.name}, {user.role}, {user.password}"
+            return "None"
+        
+        if request.method == 'POST':
+            if user:
+                user_name = str(request.args['user_name'])
+                user_password = str(request.args['user_password'])
+                user_role = user.role 
+                new_user = User(user_id, user_role, user_name, user_password)
+                user_service.update_user(new_user)
+                return "successfully updated"
+            return "user not found"
+
 
     @app.route('/auth/register/', methods = ['POST'])
     def register():

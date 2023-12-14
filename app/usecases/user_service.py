@@ -7,3 +7,6 @@ class UserService():
 
     def get_user_by_id(self, id):
         return self.repository.get_user(id)
+    
+    def update_user(self, user):
+        self.repository.update_user(user)
