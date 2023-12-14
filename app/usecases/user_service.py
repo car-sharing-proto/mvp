@@ -10,3 +10,6 @@ class UserService():
     
     def update_user(self, user):
         self.repository.update_user(user)
+
+    def remove_user_by_id(self, id):
+        self.repository.remove_user(id)

@@ -56,3 +56,9 @@ class UserRepository():
                     user.role, 
                     user.name,
                     user.password))
+            
+    # remove user        
+    def remove_user(self, id : int) -> None:
+        with psycopg2.connect(**self.connection_params) as con:
+            cur = con.cursor()
+            cur.execute(f'''DELETE FROM TUser WHERE _id = {id};''')

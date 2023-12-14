@@ -44,7 +44,7 @@ def setup_routes(app, user_service):
         if request.method == 'GET':
             if user:
                 return f"{user.id}, {user.name}, {user.role}, {user.password}"
-            return "None"
+            return "user not found"
         
         if request.method == 'POST':
             if user:
@@ -54,6 +54,12 @@ def setup_routes(app, user_service):
                 new_user = User(user_id, user_role, user_name, user_password)
                 user_service.update_user(new_user)
                 return "successfully updated"
+            return "user not found"
+        
+        if request.method == 'DELETE':
+            if user:
+                user_service.remove_user_by_id(user_id)
+                return "successfully deleted"
             return "user not found"
 
 
