@@ -102,7 +102,6 @@ create table TCarMark (
 create table TCar (
     _id integer,
     _number text not null,
-    _mileage integer,
     _markId integer,
     _rentState rent_state,
     _rentMode rent_mode,
