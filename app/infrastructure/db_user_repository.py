@@ -6,11 +6,11 @@ from app.models.user import User
 class UserRepository():
     def __init__(self) -> None:
         self.connection_params = {
-            'dbname' : os.environ['DB_NAME'],
-            'user':os.environ['DB_USER'],
-            'password':os.environ['DB_PASS'],
-            'host':os.environ['SERVER_HOST'],
-            'port':os.environ['DB_PORT'] 
+            'dbname'    :   os.environ['DB_NAME'],
+            'user'      :   os.environ['DB_USER'],
+            'password'  :   os.environ['DB_PASS'],
+            'host'      :   os.environ['SERVER_HOST'],
+            'port'      :   os.environ['DB_PORT'] 
         }
 
     # returns user by id if exists
