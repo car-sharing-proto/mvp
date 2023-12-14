@@ -18,7 +18,7 @@ class CarRepository():
         with psycopg2.connect(**self.connection_params) as con:
             cur = con.cursor()
 
-            cur.execute('SELECT * FROM TCar WHERE (_id = {0});'.format(id))
+            cur.execute(f'SELECT * FROM TCar WHERE _id = {id};')
             data = cur.fetchone()
 
             if(data is None):

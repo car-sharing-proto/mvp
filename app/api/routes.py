@@ -7,10 +7,11 @@ from flask_login import login_required
 from flask_login import login_user
 from flask_login import logout_user
 
+from app.models.car import Car
 from app.models.user import User
 from app.models.role import Role
 
-def setup_routes(app, user_service):
+def setup_routes(app, user_service, car_service):
     @app.route('/')
     def index():
         return 'This is the best carsharing backend!'
@@ -19,19 +20,42 @@ def setup_routes(app, user_service):
     @app.route('/cars/legacy/', methods = ['GET', 'POST', 'DELETE'])
     @login_required
     def car():
-        car_id = request.args['car_id']
+        car_id = int(request.args['car_id'])
+        car = car_service.get_car_by_id(car_id)
 
         if request.method == 'GET':
-            return car_id
+            if car:
+                return f'''
+                {car.number}, {car.mark_id}, 
+                {car.rent_mode}, {car.rent_state}'''
+            return 'car not found'
         
-        if(current_user.role == Role.User):
-            abort(405)
+        #if(current_user.role == Role.User):
+            #abort(405)
 
         if request.method == 'POST':
-            return f"post request for {car_id}!"
+            mark_id = int(request.args['mark_id'])
+            number = str(request.args['number'])
+            rent_state = str(request.args['rent_state'])
+            rent_mode = str(request.args['rent_mode'])
+            new_car = Car(
+                id=car_id, 
+                mark_id=mark_id, 
+                number=number,
+                rent_mode=rent_mode,
+                rent_state=rent_state)
+            if car:
+                car_service.update_car(new_car)
+                return 'successfully added'
+            
+            car_service.add_car(new_car)
+            return 'successfully updated'
 
         if request.method == 'DELETE':
-            return f"delete request for {car_id}!"
+            if car:
+                car_service.remove_car_by_id(car_id)
+                return "successfully deleted"
+            return 'car not found'
         
     
     @app.route('/user/legacy/', methods = ['GET', 'POST', 'DELETE'])
