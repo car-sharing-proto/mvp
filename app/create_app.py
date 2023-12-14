@@ -7,8 +7,12 @@ from app.infrastructure.test.test_car_repository import CarRepository
 from app.usecases.user_service import UserService
 from app.usecases.car_service import CarService
 
+from dotenv import load_dotenv
+
 
 def create_app():
+    load_dotenv()
+    
     app = Flask(__name__)
 
     login_manager = LoginManager()

@@ -1,13 +1,10 @@
 import psycopg2
 import os
 
-from dotenv import load_dotenv
 from app.models.user import User
 
 class UserRepository():
     def __init__(self) -> None:
-        load_dotenv()
-
         self.connection_params = {
             'dbname' : os.environ['DB_NAME'],
             'user':os.environ['DB_USER'],
@@ -17,7 +14,7 @@ class UserRepository():
         }
 
     # returns user by id if exists
-    def get_user(self, id) -> User:
+    def get_user(self, id : int) -> User:
         with psycopg2.connect(**self.connection_params) as con:
             cur = con.cursor()
 
@@ -37,7 +34,7 @@ class UserRepository():
             return user
     
     # add user to db
-    def add_user(self, user) -> None:
+    def add_user(self, user : User) -> None:
         with psycopg2.connect(**self.connection_params) as con:
             cur = con.cursor()
             cur.execute(
