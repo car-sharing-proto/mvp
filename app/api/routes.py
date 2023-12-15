@@ -30,8 +30,8 @@ def setup_routes(app, user_service, car_service):
                 {car.rent_mode}, {car.rent_state}'''
             return 'car not found'
         
-        #if(current_user.role == Role.User):
-            #abort(405)
+        if(current_user.role == Role.User):
+            abort(405)
 
         if request.method == 'POST':
             mark_id = int(request.args['mark_id'])
@@ -88,12 +88,17 @@ def setup_routes(app, user_service, car_service):
 
 
     @app.route('/auth/register/', methods = ['POST'])
+    @login_required
     def register():
+        if(current_user.role == Role.User):
+            abort(405)
+            
         name = request.args['user_name']        
         password = request.args['user_password']
         id = request.args['id']
+        role = request.args['role']
 
-        user = User(id, "user", name, password)
+        user = User(id, role, name, password)
 
         user_service.register_user(user)
 
