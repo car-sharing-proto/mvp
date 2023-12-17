@@ -8,10 +8,11 @@ from flask_login import login_user
 from flask_login import logout_user
 
 from app.models.car import Car
+from app.models.car_mark import CarMark
 from app.models.user import User
 from app.models.role import Role
 
-def setup_routes(app, user_service, car_service):
+def setup_routes(app, user_service, car_service, car_mark_service):
     @app.route('/')
     def index():
         return 'This is the best carsharing backend!'
@@ -56,7 +57,46 @@ def setup_routes(app, user_service, car_service):
                 car_service.remove_car_by_id(car_id)
                 return "successfully deleted"
             return 'car not found'
+    
+    @app.route('/car_marks/legacy/', methods = ['GET', 'POST', 'DELETE'])
+    @login_required
+    def car_makr():
+        car_mark_id = int(request.args['id'])
+        car_mark = car_mark_service.get_car_mark_by_id(car_mark_id)
+
+        if request.method == 'GET':
+            if car_mark:
+                return f'''
+                {car_mark.model},
+                {car_mark.mark}, 
+                {car_mark.color}'''
+            return 'car mark not found'
         
+        if(current_user.role == Role.User):
+            abort(405)
+
+        if request.method == 'POST':
+            model = request.args['model']
+            mark = request.args['mark']
+            color = request.args['color']
+            new_car_mark = CarMark(
+                id=car_mark_id,
+                model=model,
+                mark=mark,
+                color=color
+            )
+            if car_mark:
+                car_service.update_car_mark(new_car_mark)
+                return 'successfully added'
+            
+            car_mark_service.add_car_mark(new_car_mark)
+            return 'successfully updated'
+
+        if request.method == 'DELETE':
+            if car_mark:
+                car_service.remove_car_mark_by_id(car_mark_id)
+                return "successfully deleted"
+            return 'car mark not found'
     
     @app.route('/user/legacy/', methods = ['GET', 'POST', 'DELETE'])
     @login_required

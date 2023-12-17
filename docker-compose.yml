@@ -23,12 +23,11 @@ services:
   postgres:
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    restart: always
     image: postgres:latest
     expose:
       - ${DB_PORT}
     volumes:
-      - db-data:/var/lib/postgresql
+      - db-data-volume:/var/lib/postgresql:rw
       - ./db/pg_hba.conf:/var/lib/postgresql/pg_hba.conf
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
@@ -39,4 +38,5 @@ services:
       - ${DB_PORT}:${DB_PORT}
 
 volumes:
-  db-data:
+  db-data-volume:
+    external: true

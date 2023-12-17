@@ -1,10 +1,3 @@
-drop table if exists TUseSession;
-drop table if exists TUser;
-drop table if exists TCar;
-drop table if exists TComment;
-drop table if exists TCarMark;
-drop table if exists TTelematics;
-
 begin;
 DO $$
 begin
@@ -73,7 +66,7 @@ end
 $$;
 commit;
 
-create table TComment (
+create table if not exists TComment (
     _id integer,
     _content text not null,
     _timedate timestamp not null,
@@ -81,7 +74,7 @@ create table TComment (
     primary key (_id)
 );
 
-create table TUser (
+create table if not exists TUser(
     _id integer,
     _role text not null,
     _name text not null,
@@ -90,7 +83,7 @@ create table TUser (
     primary key (_id)
 );
 
-create table TCarMark (
+create table if not exists TCarMark (
     _id integer,
     _model text not null,
     _mark text not null,
@@ -99,7 +92,7 @@ create table TCarMark (
     primary key (_id)
 );
 
-create table TCar (
+create table if not exists TCar (
     _id integer,
     _number text not null,
     _markId integer,
@@ -110,7 +103,7 @@ create table TCar (
     foreign key (_markId) references TCarMark (_id)
 );
 
-create table TUseSession (
+create table if not exists TUseSession (
     _id integer,
     _startTime timestamp not null,
     _endTime timestamp not null,
@@ -122,7 +115,7 @@ create table TUseSession (
     foreign key (_userId) references TUser (_id)
 );
 
-create table TTelematics (
+create table if not exists TTelematics (
     _id integer,
     _timedate timestamp not null,
     _carId integer,
