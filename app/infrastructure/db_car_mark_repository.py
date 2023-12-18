@@ -39,7 +39,7 @@ class CarMarkRepository():
             cur = con.cursor()
             cur.execute(f'''
                 INSERT INTO TCarMark (_id, _model, _mark, _color)
-                VALUES ({car_mark.id}, '{car_mark.model}', {car_mark.mark}, 
+                VALUES ({car_mark.id}, '{car_mark.model}', '{car_mark.mark}', 
                 '{car_mark.color}');''')
             
     # update car mark  

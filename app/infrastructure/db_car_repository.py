@@ -28,8 +28,8 @@ class CarRepository():
                 id=int(data[0]),
                 number=str(data[1]),
                 mark_id=int(data[2]),
-                rent_state=int(data[3]),
-                rent_mode=int(data[4])
+                rent_state=str(data[3]),
+                rent_mode=str(data[4])
             )
 
             return car
