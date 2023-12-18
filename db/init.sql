@@ -44,10 +44,11 @@ begin
     ) 
     then
     create type rent_state as enum (
-        'reserved', 
-        'paused',
-        'active',
-        'free'
+        'reserved',     -- машина забронирована
+        'inspection',   -- осмотр авто
+        'paused',       -- режим ожидания
+        'active',       -- активная аренда
+        'free'          -- доступна к бронированию
     );
     end if;
 
