@@ -7,3 +7,7 @@ class User(UserMixin):
         self.role = role
         self.name = name
         self.password = password
+
+
+    def check_password(self, value):
+        return self.password == value

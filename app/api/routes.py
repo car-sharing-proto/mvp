@@ -218,33 +218,3 @@ def setup_routes(app, user_service, car_service,
         user_service.register_user(user)
 
         return "successfully registred"
-    
-
-    @app.route('/auth/login/', methods = ['POST'])
-    def login():
-        id = int(request.args['id'] )       
-        password = request.args['user_password']
-
-        user = user_service.get_user_by_id(id)
-
-        if not user:
-            return "user not found"
-        
-        if user.password != password:
-            return "incorrect password"
-        
-        result = login_user(user)
-
-        app.logger.info(f"USER LOGIN IS {result}")
-        
-        return "successfully logined"
-    
-    @app.route('/auth/logout/', methods = ['POST'])
-    @login_required
-    def logout():
-        result = logout_user()
-
-        app.logger.info(f"USER LOGIN IS {result}")
-        
-        return "successfully logouted"
-
