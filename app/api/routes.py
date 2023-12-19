@@ -28,7 +28,7 @@ def setup_routes(app, user_service, car_service, car_mark_service):
             if car:
                 return f'''
                 {car.number}, {car.mark_id}, 
-                {car.rent_mode}, {car.rent_state}'''
+                {car.rent_mode}, {car.is_free}'''
             return 'car not found'
         
         if(current_user.role == Role.User):
@@ -37,14 +37,14 @@ def setup_routes(app, user_service, car_service, car_mark_service):
         if request.method == 'POST':
             mark_id = int(request.args['mark_id'])
             number = str(request.args['number'])
-            rent_state = str(request.args['rent_state'])
+            is_free = str(request.args['is_free'])
             rent_mode = str(request.args['rent_mode'])
             new_car = Car(
                 id=car_id, 
                 mark_id=mark_id, 
                 number=number,
                 rent_mode=rent_mode,
-                rent_state=rent_state)
+                is_free=is_free)
             if car:
                 car_service.update_car(new_car)
                 return 'successfully added'

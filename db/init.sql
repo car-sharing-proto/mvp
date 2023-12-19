@@ -40,15 +40,15 @@ begin
     if not exists (
         select 1 
         from pg_type 
-        where typname = 'rent_state'
+        where typname = 'session_state'
     ) 
     then
-    create type rent_state as enum (
+    create type session_state as enum (
         'reserved',     -- машина забронирована
         'inspection',   -- осмотр авто
         'paused',       -- режим ожидания
         'active',       -- активная аренда
-        'free'          -- доступна к бронированию
+        'finished'      -- доступна к бронированию
     );
     end if;
 
@@ -97,7 +97,7 @@ create table if not exists TCar (
     _id integer,
     _number text not null,
     _markId integer,
-    _rentState rent_state,
+    _isFree boolean,
     _rentMode rent_mode,
 
     primary key (_id),
@@ -105,11 +105,12 @@ create table if not exists TCar (
 );
 
 create table if not exists TUseSession (
-    _id integer,
+    _id bigserial,
     _startTime timestamp not null,
     _endTime timestamp not null,
     _carId integer,
     _userId integer,
+    _rentState session_state,
 
     primary key (_id),
     foreign key (_carId) references TCar (_id),
