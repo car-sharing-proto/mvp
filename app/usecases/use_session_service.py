@@ -1,9 +1,6 @@
 import datetime
 
-from app.models.responses.active_rent_response import ActiveRentResponse 
-from app.models.responses.inspection_response import InspectionResponse 
-from app.models.responses.pause_rent_responce import PauseRentResponse 
-from app.models.responses.reserve_response import ReserveResponse 
+from app.models.rent_responses import RentResponse
 
 from app.models.session_state import SessionState 
 from app.models.use_session import UseSession
@@ -20,17 +17,17 @@ class UseSessionService():
     def reserve(self, user_id, car_id) -> str:
         # check user for unfinished rent
         if not self.check_user_validity(user_id):
-            return ReserveResponse.UnfinishedRent
+            return RentResponse.UnfinishedRent
         # check car for availability
         if not self.check_car_validity(car_id):
-            return ReserveResponse.ReservedCar
+            return RentResponse.ReservedCar
         # get car and user models
         user = self.user_service.get_user_by_id(user_id)
         car = self.car_service.get_car_by_id(car_id)
         # check for service mode
         if user.role == Role.User and \
             car.rent_mode == RentMode.Service:
-            return ReserveResponse.UnavailableCar
+            return RentResponse.UnavailableCar
         # create session model
         session = UseSession(
             start_time=datetime.datetime.now(),
@@ -44,50 +41,74 @@ class UseSessionService():
         car.is_free = False
         self.car_service.update_car(car)
         # return all is OK
-        return ReserveResponse.SuccessfullyReserved
+        return RentResponse.SuccessfullyReserved
 
     # start the car inspection
     def start_inspection(self, id) -> str:
         # get the session by id
         session = self.repository.get_session(id)
         # validate the session
+        if session.state == SessionState.Finished:
+            return RentResponse.FinishedRent
         if session.state != SessionState.Reserved:
-            return InspectionResponse.AlreadyInspected
+            return RentResponse.AlreadyInspected
         # switch state and update data
         session.state = SessionState.Inspection
         session.end_time = datetime.datetime.now()
         self.repository.update_session(session)
         # return all is OK
-        return InspectionResponse.SuccessfullyStarted
+        return RentResponse.SuccessfullyStarted
     
     # start an active rent
     def start_active_rent(self, id) -> str:
         # get the session by id
         session = self.repository.get_session(id)
         # validate the session
+        if session.state == SessionState.Finished:
+            return RentResponse.FinishedRent
         if session.state != SessionState.Inspection and \
             session.state != SessionState.Paused:
-            return ActiveRentResponse.ActivedCar
+            return RentResponse.ActivedRent
         # switch state and update data
         session.state = SessionState.Active
         session.end_time = datetime.datetime.now()
         self.repository.update_session(session)
         # return all is OK
-        return ActiveRentResponse.SuccessfullyActivated
+        return RentResponse.SuccessfullyActivated
     
     # pause an active rent
     def pause_active_rent(self, id) -> str:
         # get the session by id
         session = self.repository.get_session(id)
         # validate the session
+        if session.state == SessionState.Finished:
+            return RentResponse.FinishedRent
         if session.state != SessionState.Active:
-            return PauseRentResponse.PausedCar
+            return RentResponse.PausedRent
         # switch state and update data
         session.state = SessionState.Paused
         session.end_time = datetime.datetime.now()
         self.repository.update_session(session)
         # return all is OK
-        return PauseRentResponse.SuccessfullyPaused
+        return RentResponse.SuccessfullyPaused
+    
+    # finish an active rent
+    def finish_active_rent(self, id) -> str:
+        # get the session by id
+        session = self.repository.get_session(id)
+        # validate the session
+        if session.state == SessionState.Finished:
+            return RentResponse.FinishedRent
+        # switch state and update data
+        session.state = SessionState.Finished
+        session.end_time = datetime.datetime.now()
+        self.repository.update_session(session)
+        # update car state
+        car = self.car_service.get_car_by_id(session.car_id)
+        car.is_free = True
+        self.car_service.update_car(car)
+        # return all is OK
+        return RentResponse.SuccessfullyFinished
 
     # returns car availability
     def check_car_validity(self, id) -> bool:

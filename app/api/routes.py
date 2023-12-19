@@ -180,6 +180,18 @@ def setup_routes(app, user_service, car_service,
 
         return use_session_service.pause_active_rent(id)
     
+    @app.route('/service/finish_active_rent/', methods = ['GET'])
+    @login_required
+    def finish_active_rent():
+        id = int(request.args['id'])
+
+        session = use_session_service.get_session_by_id(id)
+
+        if not session:
+            return 'session not found'
+
+        return use_session_service.finish_active_rent(id)
+    
     @app.route('/session/legacy/', methods = ['GET'])
     @login_required
     def session():
