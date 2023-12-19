@@ -1,14 +1,11 @@
 import datetime
 
+from app.models.inspection_response import InspectionResponse 
+from app.models.reserve_response import ReserveResponse 
 from app.models.session_state import SessionState 
 from app.models.use_session import UseSession
 from app.models.rent_mode import RentMode 
 from app.models.role import Role 
-
-unfinished_rent = 'unfinished rent'
-reserved_car = 'car is already reserved'
-unavailable_car = 'car is currently unavailable'
-successfully_reserved = 'successfully reserved'
 
 class UseSessionService():
     def __init__(self, repository, car_service, user_service) -> None:
@@ -20,17 +17,17 @@ class UseSessionService():
     def reserve(self, user_id, car_id) -> str:
         # check user for unfinished rent
         if not self.check_user_validity(user_id):
-            return unfinished_rent
+            return ReserveResponse.UnfinishedRent
         # check car for availability
         if not self.check_car_validity(car_id):
-            return reserved_car
+            return ReserveResponse.ReservedCar
         # get car and user models
         user = self.user_service.get_user_by_id(user_id)
         car = self.car_service.get_car_by_id(car_id)
         # check for service mode
         if user.role == Role.User and \
             car.rent_mode == RentMode.Service:
-            return unavailable_car
+            return ReserveResponse.UnavailableCar
         # create session model
         session = UseSession(
             start_time=datetime.datetime.now(),
@@ -40,8 +37,24 @@ class UseSessionService():
             state=SessionState.Reserved)
         # add session into the repo
         self.repository.add_session(session)
+        # update car state
+        car.is_free = False
+        self.car_service.update_car(car)
         # return all is OK
-        return successfully_reserved
+        return ReserveResponse.SuccessfullyReserved
+
+    # start the car inspection
+    def start_inspection(self, id):
+        # get the session by id
+        session = self.repository.get_session_by_id(id)
+        # validate the session
+        if session.state != SessionState.Reserved:
+            return InspectionResponse.AlreadyInspected
+        # switch state and update data
+        session.state = SessionState.Inspection
+        self.repository.update_session(session)
+        # return all is OK
+        return InspectionResponse.SuccessfullyStarted
 
     # returns car availability
     def check_car_validity(self, id) -> bool:
