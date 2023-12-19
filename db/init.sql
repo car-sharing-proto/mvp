@@ -110,7 +110,7 @@ create table if not exists TUseSession (
     _endTime timestamp not null,
     _carId integer,
     _userId integer,
-    _rentState session_state,
+    _state session_state,
 
     primary key (_id),
     foreign key (_carId) references TCar (_id),

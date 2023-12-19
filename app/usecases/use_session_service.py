@@ -7,13 +7,13 @@ reserved_car = 'car is already reserved'
 unavailable_car = 'car is currently unavailable'
 
 class UseSessionService():
-    def __init__(self, repository, car_service, user_service):
+    def __init__(self, repository, car_service, user_service) -> None:
         self.repository = repository
         self.car_service = car_service
         self.user_service = user_service
 
 
-    def reserve(self, user_id, car_id):
+    def reserve(self, user_id, car_id) -> str:
         if not self.check_user_validity(user_id):
             return unfinished_rent
         if not self.check_car_validity(car_id):
@@ -48,9 +48,9 @@ class UseSessionService():
         return self.repository.get_session(id)
     
 
-    def update_session(self, session):
+    def update_session(self, session) -> None:
         self.repository.update_session(session)
 
 
-    def remove_session_by_id(self, id):
+    def remove_session_by_id(self, id) -> None:
         self.repository.remove_session(id)
