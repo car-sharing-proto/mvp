@@ -1,7 +1,9 @@
 import datetime
 
-from app.models.inspection_response import InspectionResponse 
-from app.models.reserve_response import ReserveResponse 
+from app.models.responses.active_rent_response import ActiveRentResponse 
+from app.models.responses.inspection_response import InspectionResponse 
+from app.models.responses.reserve_response import ReserveResponse 
+
 from app.models.session_state import SessionState 
 from app.models.use_session import UseSession
 from app.models.rent_mode import RentMode 
@@ -44,7 +46,7 @@ class UseSessionService():
         return ReserveResponse.SuccessfullyReserved
 
     # start the car inspection
-    def start_inspection(self, id):
+    def start_inspection(self, id) -> str:
         # get the session by id
         session = self.repository.get_session(id)
         # validate the session
@@ -56,6 +58,21 @@ class UseSessionService():
         self.repository.update_session(session)
         # return all is OK
         return InspectionResponse.SuccessfullyStarted
+    
+    # start an active rent
+    def start_active_rent(self, id) -> str:
+        # get the session by id
+        session = self.repository.get_session(id)
+        # validate the session
+        if session.state != SessionState.Inspection and \
+            session.state != SessionState.Paused:
+            return ActiveRentResponse.ActivedCar
+        # switch state and update data
+        session.state = SessionState.Active
+        session.end_time = datetime.datetime.now()
+        self.repository.update_session(session)
+        # return all is OK
+        return ActiveRentResponse.SuccessfullyActivated
 
     # returns car availability
     def check_car_validity(self, id) -> bool:
