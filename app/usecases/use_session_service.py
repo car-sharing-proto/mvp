@@ -2,6 +2,7 @@ import datetime
 
 from app.models.responses.active_rent_response import ActiveRentResponse 
 from app.models.responses.inspection_response import InspectionResponse 
+from app.models.responses.pause_rent_responce import PauseRentResponse 
 from app.models.responses.reserve_response import ReserveResponse 
 
 from app.models.session_state import SessionState 
@@ -73,6 +74,20 @@ class UseSessionService():
         self.repository.update_session(session)
         # return all is OK
         return ActiveRentResponse.SuccessfullyActivated
+    
+    # pause an active rent
+    def pause_active_rent(self, id) -> str:
+        # get the session by id
+        session = self.repository.get_session(id)
+        # validate the session
+        if session.state != SessionState.Active:
+            return PauseRentResponse.PausedCar
+        # switch state and update data
+        session.state = SessionState.Paused
+        session.end_time = datetime.datetime.now()
+        self.repository.update_session(session)
+        # return all is OK
+        return PauseRentResponse.SuccessfullyPaused
 
     # returns car availability
     def check_car_validity(self, id) -> bool:
