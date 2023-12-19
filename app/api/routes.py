@@ -12,7 +12,8 @@ from app.models.car_mark import CarMark
 from app.models.user import User
 from app.models.role import Role
 
-def setup_routes(app, user_service, car_service, car_mark_service):
+def setup_routes(app, user_service, car_service,
+                    car_mark_service, use_session_service):
     @app.route('/')
     def index():
         return 'This is the best carsharing backend!'
@@ -60,7 +61,7 @@ def setup_routes(app, user_service, car_service, car_mark_service):
     
     @app.route('/car_marks/legacy/', methods = ['GET', 'POST', 'DELETE'])
     @login_required
-    def car_makr():
+    def car_mark():
         car_mark_id = int(request.args['id'])
         car_mark = car_mark_service.get_car_mark_by_id(car_mark_id)
 
@@ -126,6 +127,47 @@ def setup_routes(app, user_service, car_service, car_mark_service):
                 return "successfully deleted"
             return "user not found"
 
+    @app.route('/service/reserve/', methods = ['GET'])
+    @login_required
+    def reserve():
+        user_id = int(request.args['user_id'])
+        car_id = int(request.args['car_id'])
+
+        car = car_service.get_car_by_id(car_id)
+        user = user_service.get_user_by_id(user_id)
+
+        if not car:
+            return 'car not found'
+        
+        if not user:
+            return 'user not found'
+
+        return use_session_service.reserve(user_id, car_id)
+    
+    @app.route('/service/start_inspection/', methods = ['GET'])
+    @login_required
+    def start_inspection():
+        id = int(request.args['id'])
+
+        session = use_session_service.get_session_by_id(id)
+
+        if not session:
+            return 'session not found'
+
+        return use_session_service.start_inspection(id)
+    
+    @app.route('/session/legacy/', methods = ['GET'])
+    @login_required
+    def session():
+        id = int(request.args['id'])
+
+        session = use_session_service.get_session_by_id(id)
+
+        if not session:
+            return 'session not found'
+        
+        return f'''{session.id}, {session.start_time}, {session.end_time},
+                {session.car_id}, {session.user_id}, {session.state}'''
 
     @app.route('/auth/register/', methods = ['POST'])
     @login_required

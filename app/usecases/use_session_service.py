@@ -46,12 +46,13 @@ class UseSessionService():
     # start the car inspection
     def start_inspection(self, id):
         # get the session by id
-        session = self.repository.get_session_by_id(id)
+        session = self.repository.get_session(id)
         # validate the session
         if session.state != SessionState.Reserved:
             return InspectionResponse.AlreadyInspected
         # switch state and update data
         session.state = SessionState.Inspection
+        session.end_time = datetime.datetime.now()
         self.repository.update_session(session)
         # return all is OK
         return InspectionResponse.SuccessfullyStarted

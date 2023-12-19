@@ -48,8 +48,8 @@ class CarRepository():
         with psycopg2.connect(**self.connection_params) as con:
             cur = con.cursor()         
             cur.execute(f'''
-                UPDATE TCar SET _number = {car.number}, _markId = {car.mark_id},
-                _isFree = {car.is_free}, _rentMode = {car.rent_mode}
+                UPDATE TCar SET _number = '{car.number}', _markId = {car.mark_id},
+                _isFree = {car.is_free}, _rentMode = '{car.rent_mode}'
                 WHERE _id = {car.id};''')
             
     # remove car        
