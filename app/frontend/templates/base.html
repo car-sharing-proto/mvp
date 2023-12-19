@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}SKYMOBIL{% endblock %}</title>
+</head>
+<body>
+    <nav>
+    {% if current_user.is_anonymous %}
+        <a href="{{ url_for('login') }}">Авторизация</a>
+    {% else%}
+        <a href="{{ url_for('logout') }}">Выйти</a>
+    {% endif %}
+    </nav>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+</body>
+</html>

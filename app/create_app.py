@@ -10,6 +10,7 @@ from app.usecases.user_service import UserService
 from app.usecases.car_service import CarService
 from app.usecases.car_mark_service import CarMarkService
 from app.usecases.use_session_service import UseSessionService
+from app.frontend.make_front import make_front
 
 from dotenv import load_dotenv
 
@@ -36,5 +37,7 @@ def create_app():
                  car_service, 
                  car_mark_service, 
                  use_session_service)
+    
+    make_front(app)
 
     return app

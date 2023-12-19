@@ -14,10 +14,7 @@ from app.models.role import Role
 
 def setup_routes(app, user_service, car_service,
                     car_mark_service, use_session_service):
-    @app.route('/')
-    def index():
-        return 'This is the best carsharing backend!'
-    
+  
     
     @app.route('/cars/legacy/', methods = ['GET', 'POST', 'DELETE'])
     @login_required
