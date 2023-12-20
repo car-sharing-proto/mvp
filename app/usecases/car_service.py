@@ -1,9 +1,14 @@
+from app.models.car_responses import CarResponse
+
 class CarService():
     def __init__(self, repository):
         self.repository = repository
 
-    def add_car(self, car):
+    def add_car(self, car) -> CarResponse:
+        if self.repository.get_car(car.id):
+            return CarResponse.AlreadyExists
         self.repository.add_car(car)
+        return CarResponse.SuccessfullyAdded
 
     def get_car_by_id(self, id):
         return self.repository.get_car(id)

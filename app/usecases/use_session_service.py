@@ -14,7 +14,7 @@ class UseSessionService():
         self.user_service = user_service
 
     # reserve a car
-    def reserve(self, user_id, car_id) -> str:
+    def reserve(self, user_id, car_id) -> RentResponse:
         # check user for unfinished rent
         if not self.check_user_validity(user_id):
             return RentResponse.UnfinishedRent
@@ -44,7 +44,7 @@ class UseSessionService():
         return RentResponse.SuccessfullyReserved
 
     # start the car inspection
-    def start_inspection(self, id) -> str:
+    def start_inspection(self, id) -> RentResponse:
         # get the session by id
         session = self.repository.get_session(id)
         # validate the session
@@ -60,7 +60,7 @@ class UseSessionService():
         return RentResponse.SuccessfullyStarted
     
     # start an active rent
-    def start_active_rent(self, id) -> str:
+    def start_active_rent(self, id) -> RentResponse:
         # get the session by id
         session = self.repository.get_session(id)
         # validate the session
@@ -77,7 +77,7 @@ class UseSessionService():
         return RentResponse.SuccessfullyActivated
     
     # pause an active rent
-    def pause_active_rent(self, id) -> str:
+    def pause_active_rent(self, id) -> RentResponse:
         # get the session by id
         session = self.repository.get_session(id)
         # validate the session
@@ -93,7 +93,7 @@ class UseSessionService():
         return RentResponse.SuccessfullyPaused
     
     # finish an active rent
-    def finish_active_rent(self, id) -> str:
+    def finish_active_rent(self, id) -> RentResponse:
         # get the session by id
         session = self.repository.get_session(id)
         # validate the session

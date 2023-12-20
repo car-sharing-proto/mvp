@@ -12,10 +12,12 @@ from flask_login import logout_user
 
 from app.models.car import Car
 from app.models.car_mark import CarMark
+from app.models.rent_mode import RentMode
 from app.models.user import User
 from app.models.role import Role
 from app.models.session_state import SessionState
 from app.models.user_responses import UserResponse
+from app.models.car_responses import CarResponse
 
 import json
 
@@ -191,6 +193,9 @@ def setup_routes(app, user_service, car_service,
 
             cars = car_service.get_all_free_cars()
             for car in cars:
+                if car.rent_mode != RentMode.Rent and \
+                    current_user.role == Role.User:
+                    continue
                 car_mark = car_mark_service.get_car_mark_by_id(car.mark_id)
                 ans = f'{car_mark.mark} {car_mark.model} {car.number.upper()}'
                 variants[ans] = car.id
@@ -318,7 +323,35 @@ def setup_routes(app, user_service, car_service,
     def add_car():
         if current_user.role != Role.Admin:
             abort(405)
-        return '-'
+        marks = car_mark_service.get_all_car_marks()
+        form=AddCarForm()
+        form.mark_id.choices = []
+        variants = {}
+        for mark in marks:
+            value = f'{mark.mark} {mark.model} {mark.color}'
+            variants[value] = mark.id
+            form.mark_id.choices.append(value)
+
+        if form.validate_on_submit():
+            car_id = int(form.id.data)
+            mark_id = variants[form.mark_id.data]
+            number = form.number.data
+            new_car = Car(
+                id=car_id, 
+                mark_id=mark_id, 
+                number=number,
+                rent_mode=RentMode.Service.value,
+                is_free=True)
+            
+            result = car_service.add_car(new_car)
+            if result == CarResponse.SuccessfullyAdded:
+                flash(result.value, 'success')
+                return redirect(url_for('car_list'))
+            else:
+                flash(result.value, 'error')
+            
+        return render_template('add_car.html', form=form)
+    
     
     @app.route('/admin/car_list/edit_car/', methods = ['GET', 'POST'])
     @login_required

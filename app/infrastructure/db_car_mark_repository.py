@@ -32,6 +32,27 @@ class CarMarkRepository():
             )
 
             return car_mark
+        
+    # returns all car marks
+    def get_all_car_marks(self) -> []:
+        with psycopg2.connect(**self.connection_params) as con:
+            cur = con.cursor()
+
+            cur.execute(f'SELECT * FROM TCarMark;')
+            data = cur.fetchall()
+
+            if(data is None):
+                return None
+            marks = []
+            for item in data:
+                marks.append(CarMark(
+                    id=int(item[0]),
+                    model=str(item[1]),
+                    mark=str(item[2]),
+                    color=str(item[3])
+                ))
+
+            return marks
     
     # add car mark to db
     def add_car_mark(self, car_mark : CarMark) -> None:

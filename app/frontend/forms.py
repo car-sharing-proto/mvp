@@ -31,3 +31,8 @@ class EditUserForm(FlaskForm):
     password = StringField('Пароль', validators=[DataRequired()])
     name = StringField('Имя', validators=[DataRequired()])
     role = SelectField('Роль', validators=[DataRequired()],render_kw={"class": "custom-select"})
+
+class AddCarForm(FlaskForm):
+    id = StringField('ID автомобиля', validators=[DataRequired()])
+    mark_id = SelectField('Модель', validators=[DataRequired()],render_kw={"class": "custom-select"})
+    number = StringField('Гос. номер', validators=[DataRequired()])

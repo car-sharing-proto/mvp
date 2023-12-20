@@ -8,6 +8,9 @@ class CarMarkService():
     def get_car_mark_by_id(self, id):
         return self.repository.get_car_mark(id)
     
+    def get_all_car_marks(self):
+        return self.repository.get_all_car_marks()
+    
     def remove_car_mark_by_id(self, id):
         return self.repository.remove_car_mark(id)
     
