@@ -4,17 +4,28 @@
 
 {% block content %}
 
-    <h1>Аренда автомобиля</h1>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.cars.label }}  <br>
-            {{ form.cars(size=1) }}<br>
-            {% for error in form.cars.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+    <div class="content-container">
+        <div class="content">
+            <h2>Аренда автомобиля</h2>
+            
+            <form action="" method="post" class="rent-form">
+                {{ form.hidden_tag() }}
+                
+                <div class="form-group">
+                    <label for="{{ form.cars.id }}">Выберите автомобиль</label><br>
+                    <div class="custom-select">
+                        {{ form.cars }}
+                    </div>
+                    {% for error in form.cars.errors %}
+                        <span class="error-msg">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <p>
+                    {{ form.submit(class="btn btn-primary") }}
+                </p>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

@@ -1,22 +1,27 @@
 {% extends "base.html" %}
 
-{% block title %}Аренда автомобиля{% endblock %}
+{% block title %}Аренда завершена{% endblock %}
 
 {% block content %}
 
-    <h1>Аренда завершена</h1>
-    <p>
-        Вы были за рулём прекрасного автомобиля {{ mark }} {{ model }}!      
-    </p>
-    <p>
-        Гос. номер {{ number }}  
-    </p>
-    <ul>
-        <li>Начало аренды: {{ start_time }}</li>
-        <li>Конец аренды: {{ end_time }}</li>
-    </ul>
-    <p><i>Будем рады видеть вас за рулем наших автомобилей!</i></p>
-    <form action="{{ url_for('rent') }}" method="post">
-        <button type="submit">Назад</button>
-    </form>
+    <div class="content-container">
+        <div class="content">
+            <h2>Аренда завершена</h2>
+            <p>
+                Вы были за рулём прекрасного автомобиля {{ mark }} {{ model }}!      
+            </p>
+            <p>
+                Гос. номер {{ number }}  
+            </p>
+            <blockquote>
+                Начало аренды: {{ start_time }}<br>
+                Конец аренды: {{ end_time }}
+            </blockquote>
+            <p><i>Будем рады видеть вас за рулем наших автомобилей!</i></p>
+            <form action="{{ url_for('rent') }}" method="post" class="rent-form">
+                <button type="submit" class="btn btn-primary">Назад</button>
+            </form>
+        </div>
+    </div>
+
 {% endblock %}

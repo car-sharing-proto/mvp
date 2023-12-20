@@ -4,18 +4,25 @@
 
 {% block content %}
 
-    <h1>В пути...</h1>
-    <p>
-        Вы за рулём прекрасного автомобиля {{ mark }} {{ model }}!      
-    </p>
-    <p>
-        Гос. номер {{ number }}  
-    </p>
-    <p><i>Пожалуйста(!), не оставляйте <b>автомобиль</b> без присмотра в режиме поездки! ...</i></p>
-    <form action="{{ url_for('pause_rent', id=session_id) }}" method="post">
-        <button type="submit">Перейти в ожидание</button>
-    </form>
-    <form action="{{ url_for('finish_rent', id=session_id) }}" method="post">
-        <button type="submit">Закончить аренду</button>
-    </form>
+<div class="content-container">
+    <div class="content">
+        <h2>В пути...</h2>
+        <p>
+            Вы за рулём прекрасного автомобиля {{ mark }} {{ model }}!      
+        </p>
+        <p>
+            Гос. номер {{ number }}  
+        </p>
+        <p><i>Пожалуйста(!), не оставляйте <b>автомобиль</b> без присмотра в режиме поездки! ...</i></p>
+        
+        <form action="{{ url_for('pause_rent', id=session_id) }}" method="post" class="rent-form">
+            <button type="submit" class="btn btn-primary">Перейти в ожидание</button>
+        </form>
+        
+        <form action="{{ url_for('finish_rent', id=session_id) }}" method="post" class="rent-form">
+            <button type="submit" class="btn btn-danger">Закончить аренду</button>
+        </form>
+    </div>
+</div>
+
 {% endblock %}

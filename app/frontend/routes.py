@@ -16,6 +16,8 @@ from app.models.user import User
 from app.models.role import Role
 from app.models.session_state import SessionState
 
+import json
+
 
 def setup_routes(app, user_service, car_service, 
                  car_mark_service, use_session_service):
@@ -23,7 +25,7 @@ def setup_routes(app, user_service, car_service,
     def index():
         return render_template('index.html')
     
-
+    # region login
     @app.route('/login/', methods = ['GET', 'POST'])
     def login():
         form = LoginForm()
@@ -51,8 +53,8 @@ def setup_routes(app, user_service, car_service,
         logout_user()
         flash('Вы вышли из системы', 'success')
         return redirect(url_for('index'))
-    
-
+    # endregion
+    # region rent
     @app.route('/service/start_inspection/', methods = ['POST','GET'])
     @login_required
     def start_inspection():
@@ -181,8 +183,6 @@ def setup_routes(app, user_service, car_service,
                         model=car_mark.model,
                         number=car.number.upper(),
                         session_id=session.id)
-                case SessionState.Finished:
-                    return 'ABOBA'
         else:
             form = RentForm()
             form.cars.choices = []
@@ -201,6 +201,13 @@ def setup_routes(app, user_service, car_service,
                     url_for('reserve', car_id=car_id, user_id=user_id))
 
             return render_template('rent.html', form=form)
-        
-        
-    
+    #endregion
+    # region admin
+    @app.route('/admin/')
+    @login_required
+    def admin():
+        if current_user.role != Role.Admin:
+            abort(405)
+        return render_template('admin_panel.html')   
+
+    # endregion

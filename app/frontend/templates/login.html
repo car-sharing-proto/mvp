@@ -1,26 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="content">
   <h2>Вход в SKYMOBIL</h2>
-  <form method="POST" action="{{ url_for('login') }}">
-    {{ form.hidden_tag() }}
-    <div>
-      {{ form.id.label }}<br>
-      {{ form.id(size=32) }}<br>
-      {% for error in form.id.errors %}
-        <p class="error">{{ error }}</p>
-      {% endfor %}
-    </div>
-    <div>
-      {{ form.password.label }}<br>
-      {{ form.password(size=32) }}<br>
-      {% for error in form.password.errors %}
-        <p class="error">{{ error }}</p>
-      {% endfor %}
-    </div>
-     <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-    <div>
-      {{ form.submit() }}
-    </div>
+  <form method="POST" action="{{ url_for('login') }}" class="form-container">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+          {{ form.id.label }}<br>
+          {{ form.id(size=32, class="form-control") }}<br>
+          {% for error in form.id.errors %}
+              <p class="error">{{ error }}</p>
+          {% endfor %}
+      </div>
+      <div class="form-group">
+          {{ form.password.label }}<br>
+          {{ form.password(size=32, class="form-control") }}<br>
+          {% for error in form.password.errors %}
+              <p class="error">{{ error }}</p>
+          {% endfor %}
+      </div>
+      <div class="form-group">
+          <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+      </div>
+      <div class="form-group">
+          {{ form.submit(class="btn btn-primary") }}
+      </div>
   </form>
+</div>
+
 {% endblock %}

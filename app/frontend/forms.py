@@ -18,5 +18,5 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Авторизоваться')
 
 class RentForm(FlaskForm):
-    cars = SelectField('Автомобиль', validators=[DataRequired()])
+    cars = SelectField('Автомобиль', validators=[DataRequired()],render_kw={"class": "custom-select"})
     submit = SubmitField('Забронировать')
