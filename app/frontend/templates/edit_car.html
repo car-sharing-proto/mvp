@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование автомобиля{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <h2>Редактирование автомобиля</h2>
+
+        <form method="POST" action="" class="form-container">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="mark_id">Модель:</label>
+                {{ form.mark_id(class='custom-select') }}
+                {% for error in form.mark_id.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="number">Гос. номер:</label>
+                {{ form.number(size=32, class='form-control') }}
+                {% for error in form.number.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="rent_mode">Режим:</label>
+                {{ form.mode(class='custom-select') }}
+                {% for error in form.mode.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Записать</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

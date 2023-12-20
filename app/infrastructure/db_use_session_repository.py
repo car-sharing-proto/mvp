@@ -65,7 +65,7 @@ class UseSessionRepository():
         with psycopg2.connect(**self.connection_params) as con:
             cur = con.cursor()
 
-            cur.execute(f'SELECT * FROM TUseSession WHERE _carId = {id};')
+            cur.execute(f'SELECT * FROM TUseSession WHERE _carId = {id} ORDER BY _id;')
             data = cur.fetchall()
 
             if(data is None):

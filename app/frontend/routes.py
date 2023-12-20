@@ -358,7 +358,42 @@ def setup_routes(app, user_service, car_service,
     def edit_car():
         if current_user.role != Role.Admin:
             abort(405)
-        return '-'
+        id = int(request.args['car_id'])
+        car = car_service.get_car_by_id(id)
+        
+        if car:
+            marks = car_mark_service.get_all_car_marks()
+            mark_id_choices = []
+            mark_id_variants = {}
+            for mark in marks:
+                value = f'{mark.mark} {mark.model} {mark.color}'
+                mark_id_variants[value] = mark.id
+                mark_id_choices.append(value)
+            mode_choices = [mode.value for mode in RentMode]
+            if car.rent_mode not in mode_choices:
+                car.rent_mode = mode_choices[0]
+            mark = car_mark_service.get_car_mark_by_id(car.mark_id)
+            form = EditCarForm(mark_id= f'{mark.mark} {mark.model} {mark.color}',
+                               number=car.number,
+                               mode=car.rent_mode)
+            
+            form.mode.choices = mode_choices
+            form.mark_id.choices = mark_id_choices
+
+            if form.validate_on_submit():
+                car.mark_id = mark_id_variants[form.mark_id.data]
+                car.number = form.number.data
+                car.rent_mode = form.mode.data
+                result = car_service.update_car(car)
+                if result == CarResponse.SuccessfullyUpdated:
+                    flash(result.value, 'success')
+                    return redirect(url_for('car_list'))
+                else:
+                    flash(result.value, 'error')
+
+            return render_template('edit_car.html', form=form)
+        
+        return redirect(url_for('car_list'))
     
     @app.route('/admin/car_list/details_car/', methods = ['GET'])
     @login_required

@@ -40,7 +40,7 @@ class CarRepository():
         with psycopg2.connect(**self.connection_params) as con:
             cur = con.cursor()
 
-            cur.execute(f'SELECT * FROM TCar;')
+            cur.execute(f'SELECT * FROM TCar ORDER BY _id;')
             data = cur.fetchall()
 
             if(data is None):

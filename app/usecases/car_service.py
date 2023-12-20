@@ -29,3 +29,4 @@ class CarService():
     
     def update_car(self, car):
         self.repository.update_car(car)
+        return CarResponse.SuccessfullyUpdated
