@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Аренда автомобиля{% endblock %}
+
+{% block content %}
+
+    <h1>Аренда автомобиля</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.cars.label }}  <br>
+            {{ form.cars(size=1) }}<br>
+            {% for error in form.cars.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+{% endblock %}

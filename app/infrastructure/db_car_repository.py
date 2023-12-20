@@ -33,7 +33,32 @@ class CarRepository():
             )
 
             return car
-    
+        
+
+    # returns all cars
+    def get_all_cars(self) -> []:
+        with psycopg2.connect(**self.connection_params) as con:
+            cur = con.cursor()
+
+            cur.execute(f'SELECT * FROM TCar;')
+            data = cur.fetchall()
+
+            if(data is None):
+                return None
+            
+            cars = []
+            
+            for item in data:
+                cars.append(Car(
+                    id=int(item[0]),
+                    number=str(item[1]),
+                    mark_id=int(item[2]),
+                    is_free=bool(item[3]),
+                    rent_mode=str(item[4])
+                ))
+
+            return cars
+        
     # add car to db
     def add_car(self, car : Car) -> None:
         with psycopg2.connect(**self.connection_params) as con:

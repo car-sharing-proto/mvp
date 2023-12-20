@@ -124,70 +124,9 @@ def setup_routes(app, user_service, car_service,
                 return "successfully deleted"
             return "user not found"
 
-    @app.route('/service/reserve/', methods = ['GET'])
-    @login_required
-    def reserve():
-        user_id = int(request.args['user_id'])
-        car_id = int(request.args['car_id'])
 
-        car = car_service.get_car_by_id(car_id)
-        user = user_service.get_user_by_id(user_id)
-
-        if not car:
-            return 'car not found'
-        
-        if not user:
-            return 'user not found'
-
-        return use_session_service.reserve(user_id, car_id)
     
-    @app.route('/service/start_inspection/', methods = ['GET'])
-    @login_required
-    def start_inspection():
-        id = int(request.args['id'])
 
-        session = use_session_service.get_session_by_id(id)
-
-        if not session:
-            return 'session not found'
-
-        return use_session_service.start_inspection(id)
-    
-    @app.route('/service/start_active_rent/', methods = ['GET'])
-    @login_required
-    def start_active_rent():
-        id = int(request.args['id'])
-
-        session = use_session_service.get_session_by_id(id)
-
-        if not session:
-            return 'session not found'
-
-        return use_session_service.start_active_rent(id)
-    
-    @app.route('/service/pause_active_rent/', methods = ['GET'])
-    @login_required
-    def pause_active_rent():
-        id = int(request.args['id'])
-
-        session = use_session_service.get_session_by_id(id)
-
-        if not session:
-            return 'session not found'
-
-        return use_session_service.pause_active_rent(id)
-    
-    @app.route('/service/finish_active_rent/', methods = ['GET'])
-    @login_required
-    def finish_active_rent():
-        id = int(request.args['id'])
-
-        session = use_session_service.get_session_by_id(id)
-
-        if not session:
-            return 'session not found'
-
-        return use_session_service.finish_active_rent(id)
     
     @app.route('/session/legacy/', methods = ['GET'])
     @login_required

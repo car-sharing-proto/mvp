@@ -126,6 +126,14 @@ class UseSessionService():
             if session.state != SessionState.Finished:
                 return False
         return True
+    
+
+    def get_user_current_session(self, user_id):
+        sessions = self.repository.get_sessions_by_user_id(user_id)
+        for session in sessions:
+            if session.state != SessionState.Finished:
+                return session
+        return None
 
 
     def get_session_by_id(self, id):

@@ -38,6 +38,10 @@ def create_app():
                  car_mark_service, 
                  use_session_service)
     
-    make_front(app, user_service)
+    make_front(app,
+                user_service,
+                car_service,
+                car_mark_service,
+                use_session_service)
 
     return app
