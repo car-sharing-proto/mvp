@@ -15,6 +15,7 @@ from app.models.car_mark import CarMark
 from app.models.user import User
 from app.models.role import Role
 from app.models.session_state import SessionState
+from app.models.user_responses import UserResponse
 
 import json
 
@@ -209,5 +210,86 @@ def setup_routes(app, user_service, car_service,
         if current_user.role != Role.Admin:
             abort(405)
         return render_template('admin_panel.html')   
+    
+    @app.route('/admin/user_list/')
+    @login_required
+    def user_list():
+        if current_user.role != Role.Admin:
+            abort(405)
+        users = user_service.get_all_users()
+        return render_template('user_list.html', users=users)   
+        
+    @app.route('/admin/user_list/add_user', methods = ['GET', 'POST'])
+    @login_required
+    def add_user():
+        if current_user.role != Role.Admin:
+            abort(405)
+        form = AddUserForm()
+        form.role.choices = [role.value for role in Role]
+
+        if form.validate_on_submit():
+            name = str(form.name.data)
+            id=int(form.id.data)
+            password = str(form.password.data)
+            role = str(form.role.data)
+            new_user = User(id, role, name, password)
+            result = user_service.register_user(new_user)
+            if result == UserResponse.SuccessfullyAdded:
+                flash(result.value, 'success')
+                return redirect(url_for('user_list'))
+            else:
+                flash(result.value, 'error')
+            
+        return render_template('add_user.html', form=form)
+    
+    @app.route('/admin/user_list/edit_user', methods = ['GET', 'POST'])
+    @login_required
+    def edit_user():
+        if current_user.role != Role.Admin:
+            abort(405)
+        id = int(request.args['user_id'])
+        user = user_service.get_user_by_id(id)
+        
+        if user:
+            choices = [role.value for role in Role]
+            if user.role not in choices:
+                user.role = choices[0]
+
+            form = EditUserForm(name=user.name,
+                                 password=user.password,
+                                   role=user.role)
+            form.role.choices = choices
+
+            if form.validate_on_submit():
+                name = str(form.name.data)
+                password = str(form.password.data)
+                role = str(form.role.data)
+                new_user = User(id, role, name, password)
+                result = user_service.update_user(new_user)
+                if result == UserResponse.SuccessfullyUpdated:
+                    flash(result.value, 'success')
+                    return redirect(url_for('user_list'))
+                else:
+                    flash(result.value, 'error')
+
+            return render_template('edit_user.html', form=form)
+        
+        return redirect(url_for('user_list'))
+        
+        
+    
+    @app.route('/admin/user_list/details_user')
+    @login_required
+    def details_user():
+        if current_user.role != Role.Admin:
+            abort(405)
+        return '-'
+    
+    @app.route('/admin/user_list/delete_user')
+    @login_required
+    def delete_user():
+        if current_user.role != Role.Admin:
+            abort(405)
+        return '-'
 
     # endregion

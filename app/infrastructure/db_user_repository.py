@@ -32,6 +32,29 @@ class UserRepository():
             )
 
             return user
+        
+    # returns all users
+    def get_all_users(self) -> []:
+        with psycopg2.connect(**self.connection_params) as con:
+            cur = con.cursor()
+
+            cur.execute('SELECT * FROM TUser')
+            data = cur.fetchall()
+
+            if(data is None):
+                return None
+            
+            users = []
+            
+            for item in data:
+                users.append(User(
+                    int(item[0]),
+                    str(item[1]),
+                    str(item[2]), 
+                    str(item[3])
+                 ))
+
+            return users
     
     # add user to db
     def add_user(self, user : User) -> None:

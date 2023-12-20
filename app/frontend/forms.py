@@ -20,3 +20,14 @@ class LoginForm(FlaskForm):
 class RentForm(FlaskForm):
     cars = SelectField('Автомобиль', validators=[DataRequired()],render_kw={"class": "custom-select"})
     submit = SubmitField('Забронировать')
+
+class AddUserForm(FlaskForm):
+    id = StringField('ID пользователя', validators=[DataRequired()])
+    password = StringField('Пароль', validators=[DataRequired()])
+    name = StringField('Имя', validators=[DataRequired()])
+    role = SelectField('Роль', validators=[DataRequired()],render_kw={"class": "custom-select"})
+
+class EditUserForm(FlaskForm):
+    password = StringField('Пароль', validators=[DataRequired()])
+    name = StringField('Имя', validators=[DataRequired()])
+    role = SelectField('Роль', validators=[DataRequired()],render_kw={"class": "custom-select"})

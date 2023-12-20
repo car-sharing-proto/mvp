@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Список пользователей{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <h2>Список пользователей</h2>
+
+        <a href="{{ url_for('add_user') }}" class="btn btn-primary" style="margin-bottom: 30px;">Добавить пользователя</a>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Пароль</th>
+                <th>Роль</th>
+                <th>Действия</th>
+            </tr>
+            
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.password }}</td>
+                    <td>{{ user.role }}</td>
+                    <td class="action-buttons">
+                        <a href="{{ url_for('edit_user', user_id=user.id) }}" class="btn btn-primary">Редактировать</a>
+                        <a href="{{ url_for('details_user', user_id=user.id) }}" class="btn btn-info">Подробнее</a>
+                        <a href="{{ url_for('delete_user', user_id=user.id) }}" class="btn btn-danger">Удалить</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
