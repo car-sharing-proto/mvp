@@ -78,7 +78,7 @@ def setup_routes(app, user_service, car_service,
             session.user_id != current_user.id:
             return abort(405)
         flash(use_session_service.finish_active_rent(id))
-        return redirect(url_for('rent'))
+        return redirect(url_for('finished', id=session.id))
     
     @app.route('/service/reserve/', methods = ['POST','GET'])
     @login_required
@@ -123,6 +123,25 @@ def setup_routes(app, user_service, car_service,
         flash(use_session_service.pause_active_rent(id))
         return redirect(url_for('rent'))
     
+
+    @app.route('/finished/', methods = ['GET', 'POST'])
+    @login_required
+    def finished():
+        session_id = int(request.args['id'])
+        session = use_session_service.get_session_by_id(session_id)
+        if session:
+            car = car_service.get_car_by_id(session.car_id)
+            car_mark = car_mark_service.get_car_mark_by_id(car.mark_id)
+            return render_template(
+                        'rent_finished.html', 
+                        mark=car_mark.mark,
+                        model=car_mark.model,
+                        number=car.number.upper(),
+                        session_id=session.id,
+                        start_time=session.start_time,
+                        end_time=session.end_time)
+        else:
+            return redirect(url_for('rent'))
 
     @app.route('/rent/', methods = ['GET', 'POST'])
     @login_required
