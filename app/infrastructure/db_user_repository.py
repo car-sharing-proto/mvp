@@ -38,7 +38,7 @@ class UserRepository():
         with psycopg2.connect(**self.connection_params) as con:
             cur = con.cursor()
 
-            cur.execute('SELECT * FROM TUser')
+            cur.execute('SELECT * FROM TUser ORDER BY _id;')
             data = cur.fetchall()
 
             if(data is None):

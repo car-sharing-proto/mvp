@@ -8,13 +8,13 @@
 
         <a href="{{ url_for('add_user') }}" class="btn btn-primary" style="margin-bottom: 30px;">Добавить пользователя</a>
 
-        <table>
+        <table class="list-table">
             <tr>
                 <th>ID</th>
                 <th>Имя</th>
                 <th>Пароль</th>
                 <th>Роль</th>
-                <th>Действия</th>
+                <th/>
             </tr>
             
             {% for user in users %}

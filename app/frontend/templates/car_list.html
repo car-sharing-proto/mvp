@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Список автомобилей{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <h2>Список автомобилей</h2>
+
+        <a href="{{ url_for('add_car') }}" class="btn btn-primary" style="margin-bottom: 30px;">Добавить автомобиль</a>
+
+        <table class="list-table">
+            <tr>
+                <th>ID</th>
+                <th>Гос. номер</th>
+                <th>Модель</th>
+                <th>Цвет</th>
+                <th>Режим</th>
+                <th>Используется</th>
+                <th/>
+            </tr>
+            
+            {% for car in cars %}
+                <tr>
+                    <td>{{ car['id'] }}</td>
+                    <td>{{ car['number'] }}</td>
+                    <td>{{ car['model'] }}</td>
+                    <td>{{ car['color'] }}</td>
+                    <td>{{ car['mode'] }}</td>
+                    <td>{{ 'нет' if car['is_free'] else 'да' }}</td>
+                    <td class="action-buttons">
+                        <a href="{{ url_for('edit_car', car_id=car['id']) }}" class="btn btn-primary">Редактировать</a>
+                        <a href="{{ url_for('details_car', car_id=car['id']) }}" class="btn btn-info">Подробнее</a>
+                        <a href="{{ url_for('delete_car', car_id=car['id']) }}" class="btn btn-danger">Удалить</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

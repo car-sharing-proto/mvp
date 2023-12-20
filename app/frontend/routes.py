@@ -291,5 +291,54 @@ def setup_routes(app, user_service, car_service,
         if current_user.role != Role.Admin:
             abort(405)
         return '-'
+    
+    @app.route('/admin/car_list/')
+    @login_required
+    def car_list():
+        if current_user.role != Role.Admin:
+            abort(405)
+        cars = car_service.get_all_cars()
+        records = []
+
+        for car in cars:
+            model = car_mark_service.get_car_mark_by_id(car.mark_id)
+            records.append({
+                'id' : car.id,
+                'number' : car.number,
+                'model' : f'{model.mark} {model.model}',
+                'color' : model.color,
+                'mode' : car.rent_mode,
+                'is_free' : car.is_free
+            })
+
+        return render_template('car_list.html', cars=records) 
+    
+    @app.route('/admin/car_list/add_car/', methods = ['GET', 'POST'])
+    @login_required
+    def add_car():
+        if current_user.role != Role.Admin:
+            abort(405)
+        return '-'
+    
+    @app.route('/admin/car_list/edit_car/', methods = ['GET', 'POST'])
+    @login_required
+    def edit_car():
+        if current_user.role != Role.Admin:
+            abort(405)
+        return '-'
+    
+    @app.route('/admin/car_list/details_car/', methods = ['GET'])
+    @login_required
+    def details_car():
+        if current_user.role != Role.Admin:
+            abort(405)
+        return '-'
+    
+    @app.route('/admin/car_list/delete_car/', methods = ['GET', 'POST'])
+    @login_required
+    def delete_car():
+        if current_user.role != Role.Admin:
+            abort(405)
+        return '-'
 
     # endregion

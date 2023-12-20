@@ -16,6 +16,9 @@ class CarService():
                 result.append(car)
         return result
     
+    def get_all_cars(self):
+        return self.repository.get_all_cars()
+    
     def remove_car_by_id(self, id):
         return self.repository.remove_car(id)
     
