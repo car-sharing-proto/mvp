@@ -162,7 +162,11 @@ class UseSessionService():
             return True
         
         return find_opened_value(json_data)
+    
 
+    def get_last_session_by_car_id(self, car_id):
+        return self.repository.get_last_session_by_car_id(car_id)
+    
 
     def get_session_by_id(self, id):
         return self.repository.get_session(id)

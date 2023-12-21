@@ -20,7 +20,8 @@ def setup_routes(
         car_service,
         car_mark_service,
         use_session_service, 
-        telemetry_service):
+        telemetry_service,
+        command_service):
 
 
     @app.route('/car_marks/legacy/', methods = ['GET', 'POST', 'DELETE'])
@@ -96,3 +97,13 @@ def setup_routes(
             return jsonify({
                 'status': 'Success', 
                 'message': response.value}), 201
+        
+
+    @app.route('/telemetry/get/', methods = ['GET'])
+    def telemetry_get():
+        car_id = int(request.args['car_id'])
+        command = command_service.get_command_for_car(car_id)
+        return jsonify({
+                'status': 'Success', 
+                'message': command.value}), 201
+        

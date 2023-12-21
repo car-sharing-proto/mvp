@@ -58,6 +58,8 @@ def setup_routes(app, user_service, car_service,
         flash('Вы вышли из системы', 'success')
         return redirect(url_for('index'))
     # endregion
+
+    
     # region rent
     @app.route('/service/start_inspection/', methods = ['POST','GET'])
     @login_required

@@ -12,6 +12,7 @@ from app.usecases.car_service import CarService
 from app.usecases.car_mark_service import CarMarkService
 from app.usecases.use_session_service import UseSessionService
 from app.usecases.telemetry_service import TelemetryService
+from app.usecases.command_service import CommandService
 from app.frontend.make_front import make_front
 
 from dotenv import load_dotenv
@@ -35,6 +36,9 @@ def create_app():
     use_session_service = UseSessionService(use_session_repository, 
                                             car_service, user_service,
                                             telemetry_service)
+    command_service = CommandService(car_service,
+                                      use_session_service, 
+                                      telemetry_service)
 
     setup_loging(app, login_manager, user_service)
     setup_routes(app, 
@@ -42,7 +46,8 @@ def create_app():
                  car_service, 
                  car_mark_service, 
                  use_session_service,
-                 telemetry_service)
+                 telemetry_service,
+                 command_service)
     
     make_front(app,
                 user_service,

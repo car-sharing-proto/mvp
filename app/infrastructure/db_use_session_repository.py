@@ -84,6 +84,32 @@ class UseSessionRepository():
                 ))
 
             return sessions
+        
+    def get_last_session_by_car_id(self, id: int) -> UseSession | None:
+        with psycopg2.connect(**self.connection_params) as con:
+            cur = con.cursor()
+
+            cur.execute(f'''
+                SELECT * FROM TUseSession 
+                WHERE _carId = {id} 
+                ORDER BY _startTime DESC 
+                LIMIT 1;
+            ''')
+            data = cur.fetchone()
+
+            if not data:
+                return None
+
+            session = UseSession(
+                id=int(data[0]),
+                start_time=str(data[1]),
+                end_time=str(data[2]),
+                car_id=int(data[3]),
+                user_id=int(data[4]),
+                state=str(data[5])
+            )
+
+            return session
     
     # add use session to db
     def add_session(self, session : UseSession) -> int:
