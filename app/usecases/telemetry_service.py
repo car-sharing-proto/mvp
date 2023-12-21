@@ -3,13 +3,16 @@ from app.models.telemetry import Telemetry
 
 
 class TelemetryService():
-    def __init__(self, repository) -> None:
+    def __init__(self, repository, car_service) -> None:
         self.repository = repository
+        self.car_service = car_service
 
     def add_telemetry(self, **kwargs) -> TelemetryResponse:
         telemetry = Telemetry(**kwargs)
         if telemetry.id and self.repository.get_telemetry(telemetry.id):
             return TelemetryResponse.AlreadyExists
+        if not self.car_service.get_car_by_id(telemetry.car_id):
+            return TelemetryResponse.CarNotFound
         self.repository.add_telemetry(telemetry)
         return TelemetryResponse.SuccessfullyAdded
     

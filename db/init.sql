@@ -4,42 +4,6 @@ begin
     if not exists (
         select 1 
         from pg_type 
-        where typname = 'door_status'
-    ) 
-    then
-    create type door_status as enum (
-        'opened', 
-        'closed'
-    );
-    end if;
-
-    if not exists (
-        select 1 
-        from pg_type 
-        where typname = 'immobilizer_status'
-    ) 
-    then
-    create type immobilizer_status as enum (
-        'on', 
-        'off'
-    );
-    end if;
-
-    if not exists (
-        select 1 
-        from pg_type 
-        where typname = 'central_locking_status'
-    ) 
-    then
-    create type central_locking_status as enum (
-        'on', 
-        'off'
-    );
-    end if;
-
-    if not exists (
-        select 1 
-        from pg_type 
         where typname = 'session_state'
     ) 
     then
@@ -121,19 +85,7 @@ create table if not exists TTelematics (
     _id bigserial,
     _timedate timestamp not null,
     _carId integer,
-    -- door status --
-    _leftFrontDoorStatus door_status,
-    _rightFrontDoorStatus door_status,
-    _leftRearDoorStatus door_status,
-    _rightRearDoorStatus door_status,
-    _hood door_status,
-    _trunk door_status,
-    -- geoposition --
-    _geoposition text not null,
-    -- immobilizer --
-    _immobilizerStatus immobilizer_status,
-    -- central locking --
-    _centralLockingStatus central_locking_status,
+    _data text,
     
     primary key (_id),
     foreign key (_carId) references TCar (_id)

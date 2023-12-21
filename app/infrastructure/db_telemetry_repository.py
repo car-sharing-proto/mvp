@@ -28,15 +28,7 @@ class TelemetryRepository():
                 id=int(data[0]),
                 timedate=str(data[1]),
                 car_id=int(data[2]),
-                left_front_door_status=str(data[3]),
-                left_rear_door_status=str(data[4]),
-                right_front_door_status=str(data[5]),
-                right_rear_door_status=str(data[6]),
-                trunk_status=str(data[7]),
-                hood_status=str(data[8]),
-                geoposition=str(data[9]),
-                immobilizer_status=str(data[10]),
-                central_locking_status=str(data[11]),
+                data=str(data[3])
             )
 
             return telemetry
@@ -62,15 +54,7 @@ class TelemetryRepository():
                     id=int(item[0]),
                     timedate=str(item[1]),
                     car_id=int(item[2]),
-                    left_front_door_status=str(item[3]),
-                    left_rear_door_status=str(item[4]),
-                    right_front_door_status=str(item[5]),
-                    right_rear_door_status=str(item[6]),
-                    trunk_status=str(item[7]),
-                    hood_status=str(item[8]),
-                    geoposition=str(item[9]),
-                    immobilizer_status=str(item[10]),
-                    central_locking_status=str(item[11]),
+                    data=str(item[3])
                 ))
 
             return telemetries
@@ -81,19 +65,14 @@ class TelemetryRepository():
             cur = con.cursor()
             cur.execute(f'''
                 INSERT INTO TTelematics (
-                    _timedate, _carId,
-                    _leftFrontDoorStatus, _rightFrontDoorStatus,
-                    _leftRearDoorStatus, _rightRearDoorStatus,
-                    _hood, _trunk, _geoposition,
-                    _immobilizerStatus, _centralLockingStatus
-                ) VALUES (
-                    '{telemetry.timedate}', {telemetry.car_id},
-                    '{telemetry.left_front_door_status}', '{telemetry.right_front_door_status}',
-                    '{telemetry.left_rear_door_status}', '{telemetry.right_rear_door_status}',
-                    '{telemetry.hood_status}', '{telemetry.trunk_status}', '{telemetry.geoposition}',
-                    '{telemetry.immobilizer_status}', '{telemetry.central_locking_status}'
-                );
-            ''')
+                    _timedate, _carId, _data
+                ) VALUES (%s, %s, %s);
+            ''', (
+                    telemetry.timedate, 
+                    telemetry.car_id, 
+                    telemetry.data
+                )
+            )
             
     def update_telemetry(self, telemetry) -> None:
         with psycopg2.connect(**self.connection_params) as con:
@@ -102,15 +81,7 @@ class TelemetryRepository():
                 UPDATE TTelematics SET
                 _timedate = '{telemetry.timedate}',
                 _carId = {telemetry.car_id},
-                _leftFrontDoorStatus = '{telemetry.left_front_door_status}',
-                _rightFrontDoorStatus = '{telemetry.right_front_door_status}',
-                _leftRearDoorStatus = '{telemetry.left_rear_door_status}',
-                _rightRearDoorStatus = '{telemetry.right_rear_door_status}',
-                _hood = '{telemetry.hood_status}',
-                _trunk = '{telemetry.trunk_status}',
-                _geoposition = '{telemetry.geoposition}',
-                _immobilizerStatus = '{telemetry.immobilizer_status}',
-                _centralLockingStatus = '{telemetry.central_locking_status}'
+                _data = '{telemetry.data}'
                 WHERE _id = {telemetry.id};
             ''')
 
@@ -136,15 +107,7 @@ class TelemetryRepository():
                     id=int(data[0]),
                     timedate=str(data[1]),
                     car_id=int(data[2]),
-                    left_front_door_status=str(data[3]),
-                    right_front_door_status=str(data[4]),
-                    left_rear_door_status=str(data[5]),
-                    right_rear_door_status=str(data[6]),
-                    trunk_status=str(data[7]),
-                    hood_status=str(data[8]),
-                    geoposition=str(data[9]),
-                    immobilizer_status=str(data[10]),
-                    central_locking_status=str(data[11])
+                    data=str(data[3])
                 )
                 telemetry_list.append(telemetry)
 
@@ -169,15 +132,7 @@ class TelemetryRepository():
                     id=int(data[0]),
                     timedate=str(data[1]),
                     car_id=int(data[2]),
-                    left_front_door_status=str(data[3]),
-                    right_front_door_status=str(data[4]),
-                    left_rear_door_status=str(data[5]),
-                    right_rear_door_status=str(data[6]),
-                    trunk_status=str(data[7]),
-                    hood_status=str(data[8]),
-                    geoposition=str(data[9]),
-                    immobilizer_status=str(data[10]),
-                    central_locking_status=str(data[11])
+                    data=str(data[3])
                 )
                 return telemetry
             else:

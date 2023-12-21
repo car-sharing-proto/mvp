@@ -77,15 +77,22 @@ def setup_routes(
 
     @app.route('/telemetry/send/', methods = ['POST'])
     def telemetry_send():
-        telemetry_data = request.json 
+        data = request.json 
 
-        response = telemetry_service.add_telemetry(**telemetry_data)
+        response = telemetry_service.add_telemetry(
+            timedate=str(data['timedate']),
+            car_id=int(data['car_id']),
+            data=str(data['data']))
 
         if response == TelemetryResponse.AlreadyExists:
             return jsonify({
                 'status': 'Error', 
-                'message': 'Telemetry already exists'}), 409
+                'message': response.value}), 409
+        elif response == TelemetryResponse.CarNotFound:
+            return jsonify({
+                'status': 'Error', 
+                'message': response.value}), 403
         elif response == TelemetryResponse.SuccessfullyAdded:
             return jsonify({
                 'status': 'Success', 
-                'message': 'Telemetry added successfully'}), 201
+                'message': response.value}), 201

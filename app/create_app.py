@@ -31,9 +31,10 @@ def create_app():
     user_service = UserService(user_repository)
     car_service = CarService(car_repository)
     car_mark_service = CarMarkService(car_mark_repository)
-    telemetry_service = TelemetryService(telemetry_repository)
+    telemetry_service = TelemetryService(telemetry_repository, car_service)
     use_session_service = UseSessionService(use_session_repository, 
-                                            car_service, user_service)
+                                            car_service, user_service,
+                                            telemetry_service)
 
     setup_loging(app, login_manager, user_service)
     setup_routes(app, 

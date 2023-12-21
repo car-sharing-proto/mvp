@@ -8,10 +8,12 @@ from app.models.rent_mode import RentMode
 from app.models.role import Role 
 
 class UseSessionService():
-    def __init__(self, repository, car_service, user_service) -> None:
+    def __init__(self, repository, car_service, 
+                 user_service, telemetry_service) -> None:
         self.repository = repository
         self.car_service = car_service
         self.user_service = user_service
+        self.telemetry_service = telemetry_service
 
     # reserve a car
     def reserve(self, user_id, car_id) -> RentResponse:
@@ -134,6 +136,8 @@ class UseSessionService():
             if session.state != SessionState.Finished:
                 return session
         return None
+    
+
 
 
     def get_session_by_id(self, id):
