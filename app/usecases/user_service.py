@@ -20,5 +20,10 @@ class UserService():
     def get_all_users(self):
         return self.repository.get_all_users()
 
-    def remove_user_by_id(self, id):
+    def remove_user_by_id(self, id) -> UserResponse:
+        if not self.repository.get_user(id):
+            return UserResponse.NotFound
         self.repository.remove_user(id)
+        return UserResponse.SuccessfullyRemoved
+
+        

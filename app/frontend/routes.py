@@ -1,4 +1,4 @@
-from flask import flash, redirect, render_template, url_for
+from flask import flash, jsonify, make_response, redirect, render_template, url_for
 from app.frontend.forms import *
 
 from flask_login import current_user
@@ -290,12 +290,14 @@ def setup_routes(app, user_service, car_service,
             abort(405)
         return '-'
     
-    @app.route('/admin/user_list/delete_user')
+    @app.route('/admin/user_list/delete_user', methods = ['DELETE'])
     @login_required
     def delete_user():
         if current_user.role != Role.Admin:
             abort(405)
-        return '-'
+        user_id = int(request.args['user_id'])
+        result = user_service.remove_user_by_id(user_id)
+        return make_response(jsonify(result.value), 200)
     
     @app.route('/admin/car_list/')
     @login_required

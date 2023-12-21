@@ -23,13 +23,54 @@
                     <td>{{ user.name }}</td>
                     <td>{{ user.password }}</td>
                     <td>{{ user.role }}</td>
-                    <td class="action-buttons">
+                    <td class="action-buttons">                    
                         <a href="{{ url_for('edit_user', user_id=user.id) }}" class="btn btn-primary">Редактировать</a>
                         <a href="{{ url_for('details_user', user_id=user.id) }}" class="btn btn-info">Подробнее</a>
-                        <a href="{{ url_for('delete_user', user_id=user.id) }}" class="btn btn-danger">Удалить</a>
+                        <a href="#" class="btn btn-danger" data-userid="{{ user.id }}" onclick="confirmDeleteUser(this)">Удалить</a>
                     </td>
                 </tr>
             {% endfor %}
         </table>
     </div>
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <p>Вы уверены, что хотите удалить пользователя?</p>
+            <button class="btn btn-danger" onclick="deleteUserConfirmed()">Удалить</button>
+            <button class="btn btn-secondary" onclick="cancelDeleteUser()">Отмена</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        function confirmDeleteUser(element) {
+            document.getElementById('confirmation-modal').style.display = 'block';
+            var userId = element.getAttribute("data-userid");
+            $("#deleteUserModal").modal("show");
+            window.selectedUserId = userId;
+        }
+
+        function deleteUserConfirmed() {
+            $.ajax({
+                url: "{{ url_for('delete_user') }}" + "?user_id="+window.selectedUserId,
+                method: "DELETE",
+                success: function(response) {
+                    console.log(response);
+                    location.reload();
+                },
+                error: function(error) {
+                    console.error(error);
+                },
+                complete: function() {
+                    $("#deleteUserModal").modal("hide");
+                }
+            });
+            document.getElementById('confirmation-modal').style.display = 'none';
+        }
+
+        function cancelDeleteUser() {
+            document.getElementById('confirmation-modal').style.display = 'none';
+        }
+    </script>
 {% endblock %}
