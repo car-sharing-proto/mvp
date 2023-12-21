@@ -41,3 +41,14 @@ class EditCarForm(FlaskForm):
     mark_id = SelectField('Модель', validators=[DataRequired()],render_kw={"class": "custom-select"})
     number = StringField('Гос. номер', validators=[DataRequired()])
     mode = SelectField('Режим', validators=[DataRequired()],render_kw={"class": "custom-select"})
+
+class AddCarMarkForm(FlaskForm):
+    id = StringField('ID марки', validators=[DataRequired()])
+    mark = StringField('Марка', validators=[DataRequired()])
+    model = StringField('Модель', validators=[DataRequired()])
+    color = StringField('Цвет', validators=[DataRequired()])
+
+class EditCarMarkForm(FlaskForm):
+    mark = StringField('Марка', validators=[DataRequired()])
+    model = StringField('Модель', validators=[DataRequired()])
+    color = StringField('Цвет', validators=[DataRequired()])

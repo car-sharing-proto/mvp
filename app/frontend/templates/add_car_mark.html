@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить марку автомобиля{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <h2>Добавить марку автомобиля</h2>
+
+        <form action="" method="post" class="form-container">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="id">ID Марки:</label>
+                {{ form.id(size=32, class='form-control') }}
+                {% for error in form.mark.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="mark">Марка:</label>
+                {{ form.mark(size=32, class='form-control') }}
+                {% for error in form.mark.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="model">Модель:</label>
+                {{ form.model(size=32, class='form-control') }}
+                {% for error in form.model.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="color">Цвет:</label>
+                {{ form.color(size=32, class='form-control') }}
+                {% for error in form.color.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Добавить</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -68,9 +68,9 @@ class CarMarkRepository():
         with psycopg2.connect(**self.connection_params) as con:
             cur = con.cursor()         
             cur.execute(f'''
-                UPDATE TCarMark SET _model = {car_mark.model}, 
-                _mark = {car_mark.mark},
-                _color = {car_mark.color}
+                UPDATE TCarMark SET _model = '{car_mark.model}', 
+                _mark = '{car_mark.mark}',
+                _color = '{car_mark.color}'
                 WHERE _id = {car_mark.id};''')
             
     # remove car mark        

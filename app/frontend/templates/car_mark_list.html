@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Список марок автомобилей{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <h2>Список марок автомобилей</h2>
+
+        <a href="{{ url_for('add_car_mark') }}" class="btn btn-primary" style="margin-bottom: 30px;">Добавить марку автомобиля</a>
+
+        <table class="list-table">
+            <tr>
+                <th>ID</th>
+                <th>Марка</th>
+                <th>Модель</th>
+                <th>Цвет</th>
+                <th/>
+            </tr>
+            
+            {% for car_mark in car_marks %}
+                <tr>
+                    <td>{{ car_mark.id }}</td>
+                    <td>{{ car_mark.mark }}</td>
+                    <td>{{ car_mark.model }}</td>
+                    <td>{{ car_mark.color }}</td>
+                    <td class="action-buttons">
+                        <a href="{{ url_for('edit_car_mark', car_mark_id=car_mark.id) }}" class="btn btn-primary">Редактировать</a>
+                        <a href="{{ url_for('details_car_mark', car_mark_id=car_mark.id) }}" class="btn btn-info">Подробнее</a>
+                        <a href="#" class="btn btn-danger" data-carmarkid="{{ car_mark.id }}" onclick="confirmDeleteCarMark(this)">Удалить</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <p>Вы уверены, что хотите удалить марку автомобиля?</p>
+        <button class="btn btn-danger" onclick="deleteCarMarkConfirmed()">Удалить</button>
+        <button class="btn btn-secondary" onclick="cancelDeleteCarMark()">Отмена</button>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    function confirmDeleteCarMark(element) {
+        document.getElementById('confirmation-modal').style.display = 'block';
+        var carMarkId = element.getAttribute("data-carmarkid");
+        window.selectedCarMarkId = carMarkId;
+    }
+
+    function deleteCarMarkConfirmed() {
+        $.ajax({
+            url: "{{ url_for('delete_car_mark') }}" + "?car_mark_id="+window.selectedCarMarkId,
+            method: "DELETE",
+            success: function(response) {
+                console.log(response);
+                location.reload();
+            },
+            error: function(error) {
+                console.error(error);
+            },
+            complete: function() {
+                $("#deleteCarMarkModal").modal("hide");
+            }
+        });
+        document.getElementById('confirmation-modal').style.display = 'none';
+    }
+
+    function cancelDeleteCarMark() {
+        document.getElementById('confirmation-modal').style.display = 'none';
+    }
+</script>
+{% endblock %}

@@ -19,6 +19,7 @@ from app.models.role import Role
 from app.models.session_state import SessionState
 from app.models.user_responses import UserResponse
 from app.models.car_responses import CarResponse
+from app.models.car_mark_responses import CarMarkResponse
 
 import json
 
@@ -425,6 +426,82 @@ def setup_routes(app, user_service, car_service,
             abort(405)
         car_id = int(request.args['car_id'])
         result = car_service.remove_car_by_id(car_id)
+        return make_response(jsonify(result.value), 200)
+    
+    @app.route('/admin/car_mark_list/')
+    @login_required
+    def car_mark_list():
+        if current_user.role != Role.Admin:
+            abort(405)
+        car_marks = car_mark_service.get_all_car_marks()
+        return render_template('car_mark_list.html', car_marks=car_marks)   
+    
+
+    @app.route('/admin/car_mark_list/add_car_mark/', methods = ['GET', 'POST'])
+    @login_required
+    def add_car_mark():
+        if current_user.role != Role.Admin:
+            abort(405)
+        form = AddCarMarkForm()
+        if form.validate_on_submit():
+            mark_id = int(form.id.data)
+            model = form.model.data
+            mark = form.mark.data
+            color = form.color.data
+            new_mark = CarMark(mark_id, model, mark, color)
+            result = car_mark_service.add_car_mark(new_mark)
+            if result == CarMarkResponse.SuccessfullyAdded:
+                flash(result.value, 'success')
+                return redirect(url_for('car_mark_list'))
+            else:
+                flash(result.value, 'error')
+        return render_template('add_car_mark.html', form=form) 
+    
+
+    @app.route('/admin/car_mark_list/edit_car_mark/', methods = ['GET', 'POST'])
+    @login_required
+    def edit_car_mark():
+        if current_user.role != Role.Admin:
+            abort(405)
+        mark_id = int(request.args['car_mark_id'])
+        car_mark = car_mark_service.get_car_mark_by_id(mark_id)
+
+        if car_mark:
+            form = EditCarMarkForm(
+                mark=car_mark.mark,
+                model=car_mark.model,
+                color=car_mark.color)
+            if form.validate_on_submit():
+                model = form.model.data
+                mark = form.mark.data
+                color = form.color.data
+                new_mark = CarMark(mark_id, model, mark, color)
+                result = car_mark_service.update_car_mark(new_mark)
+                if result == CarMarkResponse.SuccessfullyUpdated:
+                    flash(result.value, 'success')
+                    return redirect(url_for('car_mark_list'))
+                else:
+                    flash(result.value, 'error')
+
+            return render_template('edit_car_mark.html', form=form) 
+        
+        return redirect(url_for('car_mark_list'))
+
+    @app.route('/admin/car_mark_list/details_car_mark/', methods = ['GET'])
+    @login_required
+    def details_car_mark():
+        if current_user.role != Role.Admin:
+            abort(405)
+        return '-'
+    
+
+    @app.route('/admin/car_mark_list/delete_car_mark/', methods = ['DELETE'])
+    @login_required
+    def delete_car_mark():
+        if current_user.role != Role.Admin:
+            abort(405)
+        mark_id = int(request.args['car_mark_id'])
+        result = car_mark_service.remove_car_mark_by_id(mark_id)
         return make_response(jsonify(result.value), 200)
 
     # endregion
