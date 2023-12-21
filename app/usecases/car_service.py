@@ -25,8 +25,11 @@ class CarService():
         return self.repository.get_all_cars()
     
     def remove_car_by_id(self, id):
-        return self.repository.remove_car(id)
+        if not self.repository.get_car(id):
+            return CarResponse.NotFound
+        self.repository.remove_car(id)
+        return CarResponse.SuccessfullyRemoved
     
-    def update_car(self, car):
+    def update_car(self, car) -> CarResponse:
         self.repository.update_car(car)
         return CarResponse.SuccessfullyUpdated

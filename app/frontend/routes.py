@@ -397,6 +397,7 @@ def setup_routes(app, user_service, car_service,
         
         return redirect(url_for('car_list'))
     
+    
     @app.route('/admin/car_list/details_car/', methods = ['GET'])
     @login_required
     def details_car():
@@ -404,11 +405,14 @@ def setup_routes(app, user_service, car_service,
             abort(405)
         return '-'
     
-    @app.route('/admin/car_list/delete_car/', methods = ['GET', 'POST'])
+
+    @app.route('/admin/car_list/delete_car/', methods = ['DELETE'])
     @login_required
     def delete_car():
         if current_user.role != Role.Admin:
             abort(405)
-        return '-'
+        car_id = int(request.args['car_id'])
+        result = car_service.remove_car_by_id(car_id)
+        return make_response(jsonify(result.value), 200)
 
     # endregion

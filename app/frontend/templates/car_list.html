@@ -30,10 +30,52 @@
                     <td class="action-buttons">
                         <a href="{{ url_for('edit_car', car_id=car['id']) }}" class="btn btn-primary">Редактировать</a>
                         <a href="{{ url_for('details_car', car_id=car['id']) }}" class="btn btn-info">Подробнее</a>
-                        <a href="{{ url_for('delete_car', car_id=car['id']) }}" class="btn btn-danger">Удалить</a>
+                        <a href="#" class="btn btn-danger" data-carid="{{ car['id'] }}" onclick="confirmDeleteCar(this)">Удалить</a>
                     </td>
                 </tr>
             {% endfor %}
         </table>
     </div>
+</div>
+<div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <p>Вы уверены, что хотите удалить автомобиль?</p>
+        <button class="btn btn-danger" onclick="deleteCarConfirmed()">Удалить</button>
+        <button class="btn btn-secondary" onclick="cancelDeleteCar()">Отмена</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    function confirmDeleteCar(element) {
+        document.getElementById('confirmation-modal').style.display = 'block';
+        var carId = element.getAttribute("data-carid");
+        $("#deleteCarModal").modal("show");
+        window.selectedCarId = carId;
+    }
+
+    function deleteCarConfirmed() {
+        $.ajax({
+            url: "{{ url_for('delete_car') }}" + "?car_id="+window.selectedCarId,
+            method: "DELETE",
+            success: function(response) {
+                console.log(response);
+                location.reload();
+            },
+            error: function(error) {
+                console.error(error);
+            },
+            complete: function() {
+                $("#deleteCarModal").modal("hide");
+            }
+        });
+        document.getElementById('confirmation-modal').style.display = 'none';
+    }
+
+    function cancelDeleteCar() {
+        document.getElementById('confirmation-modal').style.display = 'none';
+    }
+</script>
 {% endblock %}
