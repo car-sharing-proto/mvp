@@ -2,5 +2,5 @@ from enum import Enum
 
 
 class DoorStatus(str, Enum):
-    Open    = 'opened'
+    Opened  = 'opened'
     Closed  = 'closed'

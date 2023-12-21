@@ -70,21 +70,10 @@ class TelemetryRepository():
             ''', (
                     telemetry.timedate, 
                     telemetry.car_id, 
-                    telemetry.data
+                    telemetry.data,
                 )
             )
             
-    def update_telemetry(self, telemetry) -> None:
-        with psycopg2.connect(**self.connection_params) as con:
-            cur = con.cursor()         
-            cur.execute(f'''
-                UPDATE TTelematics SET
-                _timedate = '{telemetry.timedate}',
-                _carId = {telemetry.car_id},
-                _data = '{telemetry.data}'
-                WHERE _id = {telemetry.id};
-            ''')
-
     def remove_telemetry(self, id) -> None:
         with psycopg2.connect(**self.connection_params) as con:
             cur = con.cursor()

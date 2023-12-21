@@ -13,6 +13,7 @@ from flask_login import logout_user
 from app.models.car import Car
 from app.models.car_mark import CarMark
 from app.models.rent_mode import RentMode
+from app.models.rent_responses import RentResponse
 from app.models.user import User
 from app.models.role import Role
 from app.models.session_state import SessionState
@@ -82,7 +83,12 @@ def setup_routes(app, user_service, car_service,
         if current_user.role != Role.Admin and \
             session.user_id != current_user.id:
             return abort(405)
-        flash(use_session_service.finish_active_rent(id))
+        response = use_session_service.finish_active_rent(id)
+        if response == RentResponse.OpenDoors:
+            flash('Ошибка, не все двери закрыты!', 'error')
+            return redirect(url_for('rent'))
+        
+        flash(response)
         return redirect(url_for('finished', id=session.id))
     
     @app.route('/service/reserve/', methods = ['POST','GET'])
@@ -125,7 +131,11 @@ def setup_routes(app, user_service, car_service,
         if current_user.role != Role.Admin and \
             session.user_id != current_user.id:
             return abort(405)
-        flash(use_session_service.pause_active_rent(id))
+        response = use_session_service.pause_active_rent(id)
+        if response == RentResponse.OpenDoors:
+            flash('Ошибка, не все двери закрыты!', 'error')
+        else:
+            flash(response)
         return redirect(url_for('rent'))
     
 
@@ -397,7 +407,7 @@ def setup_routes(app, user_service, car_service,
         
         return redirect(url_for('car_list'))
     
-    
+
     @app.route('/admin/car_list/details_car/', methods = ['GET'])
     @login_required
     def details_car():

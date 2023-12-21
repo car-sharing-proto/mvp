@@ -1,7 +1,8 @@
 import datetime
+import json
 
+from app.models.door_status import DoorStatus
 from app.models.rent_responses import RentResponse
-
 from app.models.session_state import SessionState 
 from app.models.use_session import UseSession
 from app.models.rent_mode import RentMode 
@@ -87,6 +88,8 @@ class UseSessionService():
             return RentResponse.FinishedRent
         if session.state != SessionState.Active:
             return RentResponse.PausedRent
+        if not self.check_close_ability(session.car_id):
+            return RentResponse.OpenDoors
         # switch state and update data
         session.state = SessionState.Paused
         session.end_time = datetime.datetime.now()
@@ -101,6 +104,8 @@ class UseSessionService():
         # validate the session
         if session.state == SessionState.Finished:
             return RentResponse.FinishedRent
+        if not self.check_close_ability(session.car_id):
+            return RentResponse.OpenDoors
         # switch state and update data
         session.state = SessionState.Finished
         session.end_time = datetime.datetime.now()
@@ -138,6 +143,25 @@ class UseSessionService():
         return None
     
 
+    def check_close_ability(self, car_id) -> bool:
+        telemetry = self.telemetry_service.get_latest_telemetry_for_car(car_id)
+        json_data = json.loads(telemetry.data)
+        
+        def find_opened_value(data):
+            if isinstance(data, dict):
+                for value in data.values():
+                    if not find_opened_value(value):
+                        return False
+            elif isinstance(data, list):
+                for item in data:
+                    if not find_opened_value(item):
+                        return False
+            else:
+                if data == DoorStatus.Opened.value:
+                    return False
+            return True
+        
+        return find_opened_value(json_data)
 
 
     def get_session_by_id(self, id):

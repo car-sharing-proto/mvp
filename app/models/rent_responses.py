@@ -8,6 +8,7 @@ class RentResponse(str, Enum):
     ActivedRent             = 'rent is already in active mode'
     PausedRent              = 'rent is already in pause mode'
     FinishedRent            = 'rent is already finished'
+    OpenDoors               = 'there are open doors'
     AlreadyInspected        = 'car is already inspected'
     SuccessfullyReserved    = 'car is successfully reserved'
     SuccessfullyStarted     = 'inspection is successfully started'
