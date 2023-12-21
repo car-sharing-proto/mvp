@@ -53,6 +53,7 @@ def create_app():
                 user_service,
                 car_service,
                 car_mark_service,
-                use_session_service)
+                use_session_service,
+                telemetry_service)
 
     return app

@@ -25,3 +25,7 @@ class TelemetryService():
 
     def get_latest_telemetry_for_car(self, car_id) -> Telemetry:
         return self.repository.get_latest_telemetry_for_car(car_id)
+    
+
+    def get_all_telemetries_by_car_id(self, car_id) -> []:
+        return self.repository.get_all_telemetries_by_car_id(car_id)

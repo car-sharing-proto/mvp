@@ -25,7 +25,7 @@ import json
 
 
 def setup_routes(app, user_service, car_service, 
-                 car_mark_service, use_session_service):
+                 car_mark_service, use_session_service, telemetry_service):
     @app.route('/')
     def index():
         return render_template('index.html')
@@ -416,7 +416,15 @@ def setup_routes(app, user_service, car_service,
     def details_car():
         if current_user.role != Role.Admin:
             abort(405)
-        return '-'
+        car_id = int(request.args['car_id'])
+        car = car_service.get_car_by_id(car_id)
+        if car:
+            car_telemetry = telemetry_service.get_all_telemetries_by_car_id(car_id)
+            return render_template('car_telemetry.html', 
+                                   car_number=car.number, 
+                                   car_telemetry=car_telemetry)
+        else:
+            return redirect(url_for('car_list'))
     
 
     @app.route('/admin/car_list/delete_car/', methods = ['DELETE'])

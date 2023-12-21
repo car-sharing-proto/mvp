@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Список телеметрии{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <h2>Список телеметрии для автомобиля {{ car_number }}</h2>
+
+        <table class="list-table">
+            <tr>
+                <th>Id</th>
+                <th>Время</th>
+                <th>Показания</th>
+            </tr>
+            {% for entry in car_telemetry %}
+                <tr>
+                    <td>{{ entry.id }}</td>
+                    <td>{{ entry.timedate }}</td>
+                    <td>
+                        <pre class="json">{{ entry.data }}</pre>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const jsonElements = document.querySelectorAll('.json');
+            jsonElements.forEach(function (element) {
+                const jsonData = JSON.parse(element.textContent);
+                const formattedJson = JSON.stringify(jsonData, null, 2);
+                element.textContent = formattedJson;
+                element.style.textAlign = 'left'; // Добавляем стиль для выравнивания текста влево
+            });
+        });
+    </script>
+{% endblock %}
