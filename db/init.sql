@@ -118,7 +118,7 @@ create table if not exists TUseSession (
 );
 
 create table if not exists TTelematics (
-    _id integer,
+    _id bigserial,
     _timedate timestamp not null,
     _carId integer,
     -- door status --
