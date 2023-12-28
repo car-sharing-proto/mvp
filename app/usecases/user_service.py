@@ -25,5 +25,3 @@ class UserService():
             return UserResponse.NotFound
         self.repository.remove_user(id)
         return UserResponse.SuccessfullyRemoved
-
-        
